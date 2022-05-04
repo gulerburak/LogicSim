@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include "Object.h"
 #include "Wire.h"
+#include "Pin.h"
+#include "LogicElement.h"
 using namespace std;
 
 int main()

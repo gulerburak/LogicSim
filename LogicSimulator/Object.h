@@ -11,7 +11,6 @@ public:
 	//Some object such as LED element may have multiple textures(for on stateand off state), hence this is a list
 	
 	sf::Sprite sprite; //SFML sprite for the object (if any)
-	bool state; //State of the logic element (may be used to designate
-	button state; // D - flipflop state or whether LED is on or off)
+	bool state; //State of the logic element (may be used to designate button state; // D - flipflop state or whether LED is on or off)
 	bool selected; //Whether the object is selected for deletion 
 };
