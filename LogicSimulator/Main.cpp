@@ -4,7 +4,7 @@
 #include "Wire.h"
 #include "Pin.h"
 #include "LogicElement.h"
-#include "LogicGate.h"
+#include "AndGate.h"
 using namespace std;
 
 int main()
@@ -18,6 +18,7 @@ int main()
 
     sf::Sprite sprite;
     sprite.setTexture(texture);
+    sprite.setOrigin(49.0f, 30.0f);
 
     // create the window
     sf::RenderWindow window(sf::VideoMode(800, 600), "Logic Simulator");
@@ -27,11 +28,23 @@ int main()
     {
         // check all the window's events that were triggered since the last iteration of the loop
         sf::Event event;
+
         while (window.pollEvent(event))
         {
-            // "close requested" event: we close the window
-            if (event.type == sf::Event::Closed)
-                window.close();
+            switch (event.type)
+            {
+                // "close requested" event: we close the window
+                case sf::Event::Closed:
+                    window.close();
+                    break;
+            }
+            
+        }
+		
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        {
+			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+            sprite.setPosition((float)mousePos.x, static_cast<float>(mousePos.y));
         }
 
         window.clear(sf::Color::Black);
