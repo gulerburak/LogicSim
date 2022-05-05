@@ -4,6 +4,7 @@
 #include "Wire.h"
 #include "Pin.h"
 #include "LogicElement.h"
+#include "LogicGate.h"
 using namespace std;
 
 int main()
