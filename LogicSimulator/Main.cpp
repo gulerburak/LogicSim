@@ -5,6 +5,7 @@
 #include "Pin.h"
 #include "LogicElement.h"
 #include "AndGate.h"
+#include "Simulator.h"
 using namespace std;
 
 int main()
@@ -26,7 +27,6 @@ int main()
 
     // create the window
     sf::RenderWindow window(sf::VideoMode(1024, 768), "Logic Simulator");
-
     // run the program as long as the window is open
     while (window.isOpen())
     {
@@ -61,7 +61,7 @@ int main()
         // draw everything here...
         window.draw(sprite);
         window.draw(sprite2);
-
+		
         // end the current frame
         window.display();
     }
