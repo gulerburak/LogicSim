@@ -17,11 +17,15 @@ int main()
     }
 
     sf::Sprite sprite;
+    sf::Sprite sprite2;
     sprite.setTexture(texture);
+    sprite.setPosition(200, 200);
+    sprite2.setTexture(texture);
     sprite.setOrigin(49.0f, 30.0f);
+    sprite2.setOrigin(49.0f, 30.0f);
 
     // create the window
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Logic Simulator");
+    sf::RenderWindow window(sf::VideoMode(1024, 768), "Logic Simulator");
 
     // run the program as long as the window is open
     while (window.isOpen())
@@ -46,11 +50,17 @@ int main()
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
             sprite.setPosition((float)mousePos.x, static_cast<float>(mousePos.y));
         }
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+        {
+			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+            sprite2.setPosition((float)mousePos.x, static_cast<float>(mousePos.y));
+        }
 
         window.clear(sf::Color::Black);
 
         // draw everything here...
         window.draw(sprite);
+        window.draw(sprite2);
 
         // end the current frame
         window.display();
