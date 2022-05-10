@@ -147,6 +147,17 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AndGate.h" />
+    <ClInclude Include="Clock.h" />
+    <ClInclude Include="DoublyLinkedList.h" />
+    <ClInclude Include="LogicElement.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="Palette.h" />
+    <ClInclude Include="Pin.h" />
+    <ClInclude Include="Simulator.h" />
+    <ClInclude Include="Wire.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
