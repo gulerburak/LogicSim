@@ -8,6 +8,21 @@ void drawPalette(sf::RenderWindow* window, Object* obj)
 {
 	while(obj != nullptr)
 	{
+		//if object is selected, draw a red border around it
+		if (obj->selected)
+		{
+			sf::RectangleShape rect(sf::Vector2f(99.0f,61.0f));
+			rect.setFillColor(sf::Color::Transparent);
+			rect.setOutlineColor(sf::Color::Red);
+			rect.setOutlineThickness(2.0f);
+			rect.setPosition(obj->sprite.getPosition().x,
+							 obj->sprite.getPosition().y);
+			rect.setOrigin(50.0f, 30.0f);
+			window->draw(rect);	
+		}
+			
+
+		
 		obj->drawObject(window);
 		obj = obj->next;
 	}
