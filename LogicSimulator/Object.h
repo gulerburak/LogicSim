@@ -1,8 +1,12 @@
 #pragma once
+enum objType { AND, OR, XOR };
 
 class Object 
 {
+protected:
+	
 public:
+	objType objID;
 	Object* next; //Pointer to next object in the list
 	bool locked; //Whether the object can move on screen or is fixed
 	//You can use this flag for toolbar items which cannot move
@@ -13,4 +17,5 @@ public:
 	sf::Sprite sprite; //SFML sprite for the object (if any)
 	bool state; //State of the logic element (may be used to designate button state; // D - flipflop state or whether LED is on or off)
 	bool selected; //Whether the object is selected for deletion 
+	virtual void drawObject(sf::RenderWindow*)=0;
 };

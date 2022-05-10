@@ -1,11 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+enum pinType { INPUT, OUTPUT }; //enum for pin type (input or output pin)
+enum pinState { HIGHZ, LOW, HIGH }; //enum for pin state
 
 class Pin
 {
 public:
-	enum pinType { INPUT, OUTPUT }; //enum for pin type (input or output pin)
-	enum pinState { HIGHZ, LOW, HIGH }; //enum for pin state
+	
 	int index; //Index of the pin for an element
 	//First input pin has index 0, second input pin has index 1, output pin has index 2, so on…
 	pinType type; //whether this pin is input or output

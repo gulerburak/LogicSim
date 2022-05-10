@@ -1,3 +1,7 @@
+/* Create logic gate simulator using SFML library
+    
+*/
+
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Object.h"
@@ -6,6 +10,7 @@
 #include "LogicElement.h"
 #include "AndGate.h"
 #include "Simulator.h"
+#include "Palette.h"
 using namespace std;
 
 int main()
@@ -16,17 +21,30 @@ int main()
         cout << "Failed to load texture!" << endl;
         return -1;
     }
-
-    sf::Sprite sprite;
+    
+    /*sf::Sprite sprite;
     sf::Sprite sprite2;
     sprite.setTexture(texture);
     sprite.setPosition(200, 200);
     sprite2.setTexture(texture);
     sprite.setOrigin(49.0f, 30.0f);
-    sprite2.setOrigin(49.0f, 30.0f);
+    sprite2.setOrigin(49.0f, 30.0f);*/
 
+	// create background for command palette
+    sf::RectangleShape background;
+    background.setSize(sf::Vector2f(150, 1000));
+    background.setFillColor(sf::Color::Magenta);
+    background.setPosition(0, 0);
+	
     // create the window
     sf::RenderWindow window(sf::VideoMode(1024, 768), "Logic Simulator");
+    
+    Palette palette(&window);
+    
+	
+	// create simulator class and pass window
+    //Simulator simulator(&window);
+	
     // run the program as long as the window is open
     while (window.isOpen())
     {
@@ -41,30 +59,54 @@ int main()
                 case sf::Event::Closed:
                     window.close();
                     break;
+				
             }
             
         }
 		
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
+            /*sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                if (mousePos.x < 150) 
+                {
+                }
+                else if (mousePos.y < 150) 
+                {
+                }
+                else
+                {
+                }
+            */
+			
+        }
+        
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+        {
+            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+            cout << "Mouse position: " << mousePos.x << ", " << mousePos.y << endl;
+        }
+        /*if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        {
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+			cout << "Mouse position: " << mousePos.x << ", " << mousePos.y << endl;
             sprite.setPosition((float)mousePos.x, static_cast<float>(mousePos.y));
         }
         if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
         {
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
             sprite2.setPosition((float)mousePos.x, static_cast<float>(mousePos.y));
-        }
+        }*/
 
         window.clear(sf::Color::Black);
-
+        window.draw(background);
+        drawPalette(&window, palette.getTop());
         // draw everything here...
-        window.draw(sprite);
-        window.draw(sprite2);
+        //window.draw(sprite);
+        //window.draw(sprite2);
 		
         // end the current frame
         window.display();
+        //window.close();
     }
-#burak
     return 0;
 }
