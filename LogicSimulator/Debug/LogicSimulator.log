@@ -49,14 +49,4 @@ C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(103,59): warn
           [
               T=int
           ]
-C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(114,53): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-          with
-          [
-              T=int
-          ]
-C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(114,41): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-          with
-          [
-              T=int
-          ]
   LogicSimulator.vcxproj -> C:\Users\nuke\source\repos\TemplateProject\Debug\LogicSimulator.exe

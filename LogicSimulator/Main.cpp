@@ -107,15 +107,31 @@ int main()
 			
             if (event.type == sf::Event::MouseButtonReleased)
             {
-                if (event.mouseButton.button == sf::Mouse::Left)
+                if (mousePos.x > 150) // if mouse is not in command palette
                 {
-                    if (!(simulator.getSelected() == nullptr))
+                    if (event.mouseButton.button == sf::Mouse::Left)
                     {
-						dummy = simulator.getSelected();
-						dummy->sprite.setPosition(mousePos.x, mousePos.y);
-						simulator.setSelected(nullptr);
-						
+                        if (!(simulator.getSelected() == nullptr))
+                        {
+                            dummy = simulator.getSelected();
+                            //dummy->sprite.setPosition(mousePos.x, mousePos.y);
+                            simulator.setSelected(nullptr);
+
+                        }
                     }
+                }
+                else
+                {
+                    if (event.mouseButton.button == sf::Mouse::Left)
+                    {
+                        if (!(simulator.getSelected() == nullptr))
+                        {
+                            simulator.getSelected()->selected = 1;
+                            simulator.deleteObject();
+
+                        }
+                    }
+					
                 }
             }
             // KeyPressed is not working
@@ -124,7 +140,7 @@ int main()
                 if (event.key.code == sf::Keyboard::Delete)
                 {
                     cout << "Deleting2" << endl;
-                    simulator.deletePicked();
+                    simulator.deleteObject();
                 }
             }
             

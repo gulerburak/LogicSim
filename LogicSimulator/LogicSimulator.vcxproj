@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Pin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AndGate.h" />

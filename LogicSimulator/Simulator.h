@@ -9,7 +9,8 @@ class Simulator
 	sf::RectangleShape startButton;
 	sf::RectangleShape stopButton;
 	Object* selected;
-	Object* topObj;
+	Object* headObj;
+	Object* tailObj;
 	// add text to buttons
 	
 public:
@@ -17,6 +18,7 @@ public:
 	Simulator(sf::RenderWindow*);
 	~Simulator();
 	void addObject(Object*);
+	void deleteObject();
 	void Simulate();
 	Object* getTop();
 	Object* getSelected();
@@ -30,39 +32,80 @@ public:
 Simulator::Simulator(sf::RenderWindow* window)
 {
 	this->window = window;
-	topObj = nullptr;
+	headObj = nullptr;
+	tailObj = nullptr;
 	selected = nullptr;
 }
 
 Simulator::~Simulator()
 {
-	delete window, topObj;
+	//delete window, headObj, tailObj;
 }
 
 void Simulator::addObject(Object* newObj)
 {
 	cout << "Adding element" << endl;
+	
+	newObj->next = nullptr;
 	// create a linked list of objects
-	if (topObj == nullptr)
+	if (headObj == nullptr)
 	{
-		topObj = newObj;
+		headObj = newObj;
+		tailObj = newObj;
 	}
 	else
 	{
-		Object* temp = topObj;
-		while (temp->next != nullptr)
-		{
-			temp = temp->next;
-		}
-		temp->next = newObj;
+		tailObj-> next = newObj;
+		tailObj = newObj;
 	}
 	selected = newObj;
 	
 }
 
+void Simulator::deleteObject()
+{
+	if (headObj->selected) // delete head
+	{
+		cout << "Deleting head" << endl;
+		headObj = headObj->next;
+		delete selected;
+		selected = nullptr;
+	}
+	else if (tailObj->selected) // delete tail
+	{
+		cout << "Deleting tail" << endl;
+		Object* temp = headObj;
+		while (temp->next != tailObj)
+		{
+			temp = temp->next;
+		}
+		temp->next = nullptr;
+		delete tailObj;
+		tailObj = temp;
+		selected = nullptr;
+	}
+	//else // delete middle 
+	//{
+	//	cout << "Deleting middle" << endl;
+	//	Object* temp = headObj;
+	//	while (temp->next->next != nullptr)
+	//	{
+	//		if (temp->next->selected)
+	//		{
+	//			temp->next = temp->next->next;
+	//			delete temp->next;
+	//			selected = nullptr;
+	//		}
+	//		temp = temp->next;
+	//	
+	//	}
+	//}
+		 
+}
+
 Object* Simulator::getTop()
 {
-	return topObj;
+	return headObj;
 }
 Object* Simulator::getSelected() 
 {
@@ -74,7 +117,7 @@ void Simulator::setSelected(Object* newSelected)
 }
 Object* Simulator::GetObjectOnClick(float x, float y)
 {
-	Object* temp = topObj;
+	Object* temp = headObj;
 	while (temp != nullptr)
 	{
 		
@@ -89,7 +132,7 @@ Object* Simulator::GetObjectOnClick(float x, float y)
 void Simulator::unselectAll()
 {
 
-	Object* temp = topObj;
+	Object* temp = headObj;
 	while (temp != nullptr)
 	{
 		temp->selected = false;
@@ -98,7 +141,10 @@ void Simulator::unselectAll()
 }
 void Simulator::deletePicked()
 {
-	Object* temp = topObj;
+	/*if (selected == nullptr) return;
+	
+	selected->
+	Object* temp = headObj;
 	while (temp->next != nullptr)
 	{		
 		if (temp->next->selected = true)
@@ -119,5 +165,5 @@ void Simulator::deletePicked()
 		}
 			
 		temp = temp->next;
-	}
+	}*/
 }
