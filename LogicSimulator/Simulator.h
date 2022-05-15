@@ -23,8 +23,9 @@ public:
 	void Simulate();
 	Object* getTop();
 	Object* getSelectedObject();
+	void setSelectedObject(Object* );
 	Wire* getSelectedWire();
-	void setSelected(Object* );
+	void setSelectedWire(Wire*);
 	Object* GetObjectOnClick(float, float);
 	Pin* getPinOnClick(LogicElement*, float, float);
 	void createWire(Pin*, float, float);
@@ -130,7 +131,13 @@ Wire* Simulator::getSelectedWire()
 {
 	return selectedWire;
 }
-void Simulator::setSelected(Object* newSelected) 
+
+void Simulator::setSelectedWire(Wire* newSelected)
+{
+	selectedWire = newSelected;
+}
+
+void Simulator::setSelectedObject(Object* newSelected) 
 {
 	selectedObject = newSelected;
 }

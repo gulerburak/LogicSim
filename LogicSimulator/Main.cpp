@@ -61,8 +61,9 @@ int main()
                 window.close();
 			
             // create a dummy pointer to use
-            Object* dummy = nullptr;
+            Object* dummyObject = nullptr;
             Wire* dummyWire = nullptr;
+			Pin* dummyPin = nullptr;
 			
             if (event.type == sf::Event::MouseButtonPressed)
             {
@@ -73,7 +74,7 @@ int main()
                         // create new AndGate object
 						AndGate* andGate = new AndGate(&window , mousePos.x, mousePos.y);
 						
-                        dummy = andGate;
+                        dummyObject = andGate;
 						
 						// add object to simulator
 						simulator.addObject(andGate);
@@ -81,11 +82,11 @@ int main()
                     // look if clicked on existing object
                     else if (simulator.GetObjectOnClick(mousePos.x, mousePos.y) != nullptr)
                     {
-					    dummy = simulator.GetObjectOnClick(mousePos.x, mousePos.y);
+					    dummyObject = simulator.GetObjectOnClick(mousePos.x, mousePos.y);
 						cout << "mouse " << mousePos.x << " " << mousePos.y << endl;
 						
 						// if clicked on pin of object, add wire to simulator
-						Pin* dummyPin = simulator.getPinOnClick(static_cast<LogicElement*>(dummy), mousePos.x, mousePos.y);
+						Pin* dummyPin = simulator.getPinOnClick(static_cast<LogicElement*>(dummyObject), mousePos.x, mousePos.y);
                         
                         if (dummyPin != nullptr)
                         {
@@ -114,11 +115,12 @@ int main()
 					{
                         dummyWire = simulator.getSelectedWire();
 						dummyWire->setEndOfWire(nullptr, mousePos.x, mousePos.y);
+						
 					}
                     else if (!(simulator.getSelectedObject() == nullptr))
                     {
-                        dummy = simulator.getSelectedObject();
-                        dummy->sprite.setPosition(mousePos.x, mousePos.y);
+                        dummyObject = simulator.getSelectedObject();
+                        dummyObject->sprite.setPosition(mousePos.x, mousePos.y);
                     }
                 }
             }
@@ -129,11 +131,33 @@ int main()
                 {
                     if (event.mouseButton.button == sf::Mouse::Left)
                     {
-                        if (!(simulator.getSelectedObject() == nullptr))
+                        if (!(simulator.getSelectedWire() == nullptr))
                         {
-                            dummy = simulator.getSelectedObject();
-                            simulator.deleteObject();
-                            simulator.setSelected(nullptr);
+							dummyWire = simulator.getSelectedWire();
+                            if (simulator.GetObjectOnClick(mousePos.x, mousePos.y) != nullptr)
+                            {
+                                dummyObject = simulator.GetObjectOnClick(mousePos.x, mousePos.y);
+                                dummyPin = simulator.getPinOnClick(static_cast<LogicElement*>(dummyObject),
+                                                                   mousePos.x,
+                                                                   mousePos.y);
+								dummyWire->setEndOfWire(dummyPin,
+                                                        mousePos.x,
+                                                        mousePos.y);
+                                simulator.setSelectedObject(nullptr);
+                                dummyWire = nullptr;
+							}
+							else
+							{
+                                simulator.getSelectedWire()->selected = 1;
+                                simulator.deleteObject();
+                                simulator.setSelectedObject(nullptr);
+                            }
+						
+                        }
+                        else if (!(simulator.getSelectedObject() == nullptr))
+                        {
+                            dummyObject = simulator.getSelectedObject();
+                            simulator.setSelectedObject(nullptr);
 
                         }
                     }
@@ -142,7 +166,12 @@ int main()
                 {
                     if (event.mouseButton.button == sf::Mouse::Left)
                     {
-                        if (!(simulator.getSelectedObject() == nullptr))
+                        if (!(simulator.getSelectedWire() == nullptr))
+                        {
+							simulator.getSelectedWire()->selected = 1;
+							simulator.deleteObject();
+                        }
+                        else if (!(simulator.getSelectedObject() == nullptr))
                         {
                             simulator.getSelectedObject()->selected = 1;
                             simulator.deleteObject();

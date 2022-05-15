@@ -1,50 +1,50 @@
 ﻿  Main.cpp
-C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(74,68): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(75,68): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=int
           ]
-C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(74,56): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(75,56): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=int
           ]
-C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(82,77): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(83,77): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=int
           ]
-C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(82,65): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(83,65): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=int
           ]
-C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(84,65): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(85,71): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=int
           ]
-C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(84,53): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(85,59): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=int
           ]
-C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(88,102): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(89,108): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=int
           ]
-C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(88,90): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(89,96): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=int
           ]
-C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(92,50): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(93,50): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=int
           ]
-C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(92,38): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(93,38): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=int
@@ -69,12 +69,52 @@ C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(117,48): warn
           [
               T=int
           ]
-C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(122,71): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(123,77): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=int
           ]
-C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(122,59): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(123,65): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(137,80): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(137,68): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(139,94): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(139,82): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(142,76): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(141,76): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(145,65): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(144,65): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=int
