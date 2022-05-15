@@ -50,7 +50,7 @@ Simulator::~Simulator()
 void Simulator::addObject(Object* newObj)
 {
 	cout << "Adding element" << endl;
-	
+		
 	newObj->next = nullptr;
 	// create a linked list of objects
 	if (headObj == nullptr)
@@ -62,6 +62,11 @@ void Simulator::addObject(Object* newObj)
 	{
 		tailObj-> next = newObj;
 		tailObj = newObj;
+	}
+	if (newObj->objID == WIREclass) // if object is wire
+	{
+		selectedWire = static_cast<Wire*>(newObj);
+		return;
 	}
 	selectedObject = newObj;
 }

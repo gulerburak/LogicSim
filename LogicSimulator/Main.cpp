@@ -112,7 +112,8 @@ int main()
                 {
 					if (!(simulator.getSelectedWire() == nullptr))
 					{
-						dummyWire->setEndofWire(nullptr, mousePos.x, mousePos.y);
+                        dummyWire = simulator.getSelectedWire();
+						dummyWire->setEndOfWire(nullptr, mousePos.x, mousePos.y);
 					}
                     else if (!(simulator.getSelectedObject() == nullptr))
                     {

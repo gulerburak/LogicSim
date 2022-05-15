@@ -12,7 +12,7 @@ public:
 	~Wire();
 	
 	void setStartofWire(Pin*, float, float);
-	void setEndofWire(Pin*, float, float);
+	void setEndOfWire(Pin*, float, float);
 
 	Pin* getPinPtr(int);
 	void drawObject(sf::RenderWindow* window);
@@ -46,7 +46,7 @@ void Wire::setStartofWire(Pin* start, float x, float y)
 	line[0].position = sf::Vector2f(x, y);
 }
 
-void Wire::setEndofWire(Pin* end, float x, float y)
+void Wire::setEndOfWire(Pin* end, float x, float y)
 {
 	pins[1] = end;
 	line[1].position = sf::Vector2f(x, y);
