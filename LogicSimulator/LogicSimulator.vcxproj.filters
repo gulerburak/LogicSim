@@ -21,6 +21,9 @@
     <ClCompile Include="Pin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Wire.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AndGate.h">

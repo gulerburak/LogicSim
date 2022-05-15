@@ -78,15 +78,16 @@ int main()
 						// add object to simulator
 						simulator.addObject(andGate);
                     }
+                    // look if clicked on existing object
+                    else if (simulator.GetObjectOnClick(mousePos.x, mousePos.y) != nullptr)
+                    {
+					    dummy = simulator.GetObjectOnClick(mousePos.x, mousePos.y);
+						
+                            simulator.GetObjectOnClick(mousePos.x, mousePos.y)->selected = true;
+                    }
                     else
                     {
-						// look if clicked on existing object
-                        if (simulator.GetObjectOnClick(mousePos.x, mousePos.y) != nullptr)
-                            simulator.GetObjectOnClick(mousePos.x, mousePos.y)->selected = true;
-                        else
-                        {
-                            simulator.unselectAll();
-                        }
+                        simulator.unselectAll();
                     }
                 }
                 

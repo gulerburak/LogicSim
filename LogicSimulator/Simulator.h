@@ -64,7 +64,11 @@ void Simulator::addObject(Object* newObj)
 
 void Simulator::deleteObject()
 {
-	if (headObj->selected) // delete head
+	if (headObj == nullptr)
+	{
+		cout << "No objects to delete" << endl;
+	}
+	else if (headObj->selected) // delete head
 	{
 		cout << "Deleting head" << endl;
 		headObj = headObj->next;

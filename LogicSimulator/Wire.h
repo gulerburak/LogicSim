@@ -5,7 +5,53 @@
 #include "LogicElement.h"
 
 class Wire: public Object {
-public:
 	sf::Vertex line[2];
 	Pin* pins[2];
+public:
+	Wire(float, float, sf::RenderWindow*, Pin*);
+	
+	void setStartofWire(Pin*, float, float);
+	void setEndofWire(Pin*, float, float);
+
+	Pin* getPinPtr(int);
+	void drawObject(sf::RenderWindow* window);
 };
+
+Wire::Wire(float x, float y, sf::RenderWindow* window, Pin* start)
+{
+	objID = WIREclass;
+	this->window = window;
+	selected = false;
+	state = 0;
+
+	//connect start of the wire
+	pins[0] = start;
+	line[0] = sf::Vector2f(x, y);
+	pins[1] = nullptr;
+	line[1] = sf::Vector2f(x, y);
+}
+
+void Wire::setStartofWire(Pin* start, float x, float y)
+{
+	pins[0] = start;
+	line[0] = sf::Vector2f(x, y);
+}
+
+void Wire::setEndofWire(Pin* end, float x, float y)
+{
+	pins[1] = end;
+	line[1] = sf::Vector2f(x, y);
+}
+
+Pin* Wire::getPinPtr(int index)
+{
+	return pins[index];
+}
+
+void Wire::drawObject(sf::RenderWindow* window)
+{
+	// draw line of wire
+	line[0].color = sf::Color(220, 20, 60);
+	line[1].color = sf::Color(220, 20, 60);
+	window->draw(line, 2, sf::Lines);
+}

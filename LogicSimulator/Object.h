@@ -1,5 +1,5 @@
 #pragma once
-enum objType { AND, OR, XOR };
+enum objType { AND, OR, XOR, NOT, WIREclass, LED, Logic_0, Logic_1, Clock};
 
 class Object 
 {
