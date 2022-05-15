@@ -9,6 +9,7 @@ class Wire: public Object {
 	Pin* pins[2];
 public:
 	Wire(float, float, sf::RenderWindow*, Pin*);
+	~Wire();
 	
 	void setStartofWire(Pin*, float, float);
 	void setEndofWire(Pin*, float, float);
@@ -23,24 +24,32 @@ Wire::Wire(float x, float y, sf::RenderWindow* window, Pin* start)
 	this->window = window;
 	selected = false;
 	state = 0;
+	next = nullptr;
 
 	//connect start of the wire
 	pins[0] = start;
-	line[0] = sf::Vector2f(x, y);
+	line[0].position = sf::Vector2f(x, y);
 	pins[1] = nullptr;
-	line[1] = sf::Vector2f(x, y);
+	line[1].position = sf::Vector2f(x, y);
+	
+	count++;
+}
+
+Wire::~Wire()
+{
+	count--;
 }
 
 void Wire::setStartofWire(Pin* start, float x, float y)
 {
 	pins[0] = start;
-	line[0] = sf::Vector2f(x, y);
+	line[0].position = sf::Vector2f(x, y);
 }
 
 void Wire::setEndofWire(Pin* end, float x, float y)
 {
 	pins[1] = end;
-	line[1] = sf::Vector2f(x, y);
+	line[1].position = sf::Vector2f(x, y);
 }
 
 Pin* Wire::getPinPtr(int index)

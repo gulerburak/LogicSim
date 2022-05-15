@@ -22,15 +22,9 @@ protected:
 	int numConnections; //Number of connections on this pin
 	sf::Vector2f pos; //Screen position of the pin
 public:
-	
-	
-	
-	
 	Pin* connectedTo[5]; //List of other pins this pin is connected to
 	Object* wires[5]; //Wires connected to this pin
 	
-	
-
 	Pin();
 
 	void setIndex(int);	

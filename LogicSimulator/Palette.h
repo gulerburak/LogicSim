@@ -20,9 +20,6 @@ void drawPalette(sf::RenderWindow* window, Object* obj)
 			rect.setOrigin(50.0f, 30.0f);
 			window->draw(rect);	
 		}
-			
-
-		
 		obj->drawObject(window);
 		obj = obj->next;
 	}

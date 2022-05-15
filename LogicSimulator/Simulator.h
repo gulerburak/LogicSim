@@ -1,5 +1,6 @@
 #pragma once
 #include "Object.h"
+#include "Pin.h"
 #include <SFML/Graphics.hpp>
 using namespace std;
 
@@ -8,10 +9,10 @@ class Simulator
 	// create start and stop button
 	sf::RectangleShape startButton;
 	sf::RectangleShape stopButton;
-	Object* selected;
+	Object* selectedObject;
+	Wire* selectedWire;
 	Object* headObj;
 	Object* tailObj;
-	// add text to buttons
 	
 public:
 	sf::RenderWindow* window; //Pointer to SFML render window
@@ -21,9 +22,12 @@ public:
 	void deleteObject();
 	void Simulate();
 	Object* getTop();
-	Object* getSelected();
+	Object* getSelectedObject();
+	Wire* getSelectedWire();
 	void setSelected(Object* );
 	Object* GetObjectOnClick(float, float);
+	Pin* getPinOnClick(LogicElement*, float, float);
+	void createWire(Pin*, float, float);
 	void unselectAll();
 	void deletePicked();
 	
@@ -34,7 +38,8 @@ Simulator::Simulator(sf::RenderWindow* window)
 	this->window = window;
 	headObj = nullptr;
 	tailObj = nullptr;
-	selected = nullptr;
+	selectedObject = nullptr;
+	selectedWire = nullptr;
 }
 
 Simulator::~Simulator()
@@ -58,8 +63,7 @@ void Simulator::addObject(Object* newObj)
 		tailObj-> next = newObj;
 		tailObj = newObj;
 	}
-	selected = newObj;
-	
+	selectedObject = newObj;
 }
 
 void Simulator::deleteObject()
@@ -72,8 +76,8 @@ void Simulator::deleteObject()
 	{
 		cout << "Deleting head" << endl;
 		headObj = headObj->next;
-		delete selected;
-		selected = nullptr;
+		delete selectedObject;
+		selectedObject = nullptr;
 	}
 	else if (tailObj->selected) // delete tail
 	{
@@ -86,8 +90,9 @@ void Simulator::deleteObject()
 		temp->next = nullptr;
 		delete tailObj;
 		tailObj = temp;
-		selected = nullptr;
+		selectedObject = nullptr;
 	}
+	// add middle deletion
 	//else // delete middle 
 	//{
 	//	cout << "Deleting middle" << endl;
@@ -111,13 +116,18 @@ Object* Simulator::getTop()
 {
 	return headObj;
 }
-Object* Simulator::getSelected() 
+Object* Simulator::getSelectedObject() 
 {
-	return selected;
+	return selectedObject;
+}
+
+Wire* Simulator::getSelectedWire() 
+{
+	return selectedWire;
 }
 void Simulator::setSelected(Object* newSelected) 
 {
-	selected = newSelected;
+	selectedObject = newSelected;
 }
 Object* Simulator::GetObjectOnClick(float x, float y)
 {
@@ -133,6 +143,35 @@ Object* Simulator::GetObjectOnClick(float x, float y)
 	return nullptr;
 	
 }
+
+Pin* Simulator::getPinOnClick(LogicElement* obj, float x, float y)
+{ 
+	if (x > (obj->sprite.getPosition().x + 20)) // if on right half
+	{
+		cout << "Right" << endl;
+		return &obj->pins[2];
+	}
+	else if (x < (obj->sprite.getPosition().x - 20)) // if on left half
+	{
+		if (y > obj->sprite.getPosition().y) // if on bottom half
+		{
+			cout << "Bottom" << endl;
+			return &obj->pins[1];
+		}
+		else {
+			cout << "Top" << endl;
+			return &obj->pins[0];
+		}
+	}
+	return nullptr;
+}
+
+void Simulator::createWire(Pin*, float, float) 
+{
+	
+	
+}
+
 void Simulator::unselectAll()
 {
 

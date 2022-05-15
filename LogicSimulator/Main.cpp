@@ -62,16 +62,16 @@ int main()
 			
             // create a dummy pointer to use
             Object* dummy = nullptr;
+            Wire* dummyWire = nullptr;
 			
             if (event.type == sf::Event::MouseButtonPressed)
             {
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
                 {
-                    if (mousePos.x < 150) // if mouse is in command palette
+                    if (mousePos.x < 150) // if mouse is in item palette
                     {
                         // create new AndGate object
 						AndGate* andGate = new AndGate(&window , mousePos.x, mousePos.y);
-						andGate->sprite.setPosition(mousePos.x, mousePos.y);
 						
                         dummy = andGate;
 						
@@ -82,7 +82,19 @@ int main()
                     else if (simulator.GetObjectOnClick(mousePos.x, mousePos.y) != nullptr)
                     {
 					    dummy = simulator.GetObjectOnClick(mousePos.x, mousePos.y);
+						cout << "mouse " << mousePos.x << " " << mousePos.y << endl;
 						
+						// if clicked on pin of object, add wire to simulator
+						Pin* dummyPin = simulator.getPinOnClick(static_cast<LogicElement*>(dummy), mousePos.x, mousePos.y);
+                        
+                        if (dummyPin != nullptr)
+                        {
+							Wire* wire = new Wire(mousePos.x, mousePos.y, &window, dummyPin);
+							dummyWire = wire;
+							simulator.addObject(wire);
+							
+						}
+                        else
                             simulator.GetObjectOnClick(mousePos.x, mousePos.y)->selected = true;
                     }
                     else
@@ -98,9 +110,13 @@ int main()
             {
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
                 {
-                    if (!(simulator.getSelected() == nullptr))
+					if (!(simulator.getSelectedWire() == nullptr))
+					{
+						dummyWire->setEndofWire(nullptr, mousePos.x, mousePos.y);
+					}
+                    else if (!(simulator.getSelectedObject() == nullptr))
                     {
-                        dummy = simulator.getSelected();
+                        dummy = simulator.getSelectedObject();
                         dummy->sprite.setPosition(mousePos.x, mousePos.y);
                     }
                 }
@@ -112,10 +128,10 @@ int main()
                 {
                     if (event.mouseButton.button == sf::Mouse::Left)
                     {
-                        if (!(simulator.getSelected() == nullptr))
+                        if (!(simulator.getSelectedObject() == nullptr))
                         {
-                            dummy = simulator.getSelected();
-                            //dummy->sprite.setPosition(mousePos.x, mousePos.y);
+                            dummy = simulator.getSelectedObject();
+                            simulator.deleteObject();
                             simulator.setSelected(nullptr);
 
                         }
@@ -125,9 +141,9 @@ int main()
                 {
                     if (event.mouseButton.button == sf::Mouse::Left)
                     {
-                        if (!(simulator.getSelected() == nullptr))
+                        if (!(simulator.getSelectedObject() == nullptr))
                         {
-                            simulator.getSelected()->selected = 1;
+                            simulator.getSelectedObject()->selected = 1;
                             simulator.deleteObject();
 
                         }
@@ -147,49 +163,20 @@ int main()
             
         }
 		
-        
-        /*if (event.type == sf::Event::MouseButtonReleased)
-        {
-            if (event.mouseButton.button == sf::Mouse::Left) {
-                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-                dummy->sprite.setPosition((float)mousePos.x, static_cast<float>(mousePos.y));
-            }
-        }*/
-        
-        /*if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
-        {
-            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-            cout << "Mouse position: " << mousePos.x << ", " << mousePos.y << endl;
-        }*/
-        /*if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-        {
-			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-			cout << "Mouse position: " << mousePos.x << ", " << mousePos.y << endl;
-            sprite.setPosition((float)mousePos.x, static_cast<float>(mousePos.y));
-        }
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
-        {
-			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-            sprite2.setPosition((float)mousePos.x, static_cast<float>(mousePos.y));
-        }*/
-
+        // draw palette and objects
         window.clear(sf::Color::Black);
         window.draw(background);
         drawPalette(&window, palette.getTop());
         drawPalette(&window, simulator.getTop());
-		/*if (dummy != nullptr)
-            dummy->drawObject(&window);*/
-        // draw everything here...
-        //window.draw(sprite);
-        //window.draw(sprite2);
 		
+
+		// calculate fps
         sf::Time time = clock.getElapsedTime();
         FPS.setString(to_string(1.0f/time.asSeconds()));
 		clock.restart().asSeconds();
         window.draw(FPS);
         // end the current frame
         window.display();
-        //window.close();
     }
     return 0;
 }

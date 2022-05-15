@@ -18,6 +18,7 @@ AndGate::AndGate(sf::RenderWindow* window)
 	textures[0].loadFromFile("../assets/AND.png");
 	sprite.setTexture(textures[0]);
 	//sprite.setOrigin(49.0f, 30.0f);
+	count++;
 }
 
 AndGate::AndGate(sf::RenderWindow* window, float x, float y) {
@@ -28,10 +29,12 @@ AndGate::AndGate(sf::RenderWindow* window, float x, float y) {
 	sprite.setTexture(textures[0]);
 	sprite.setPosition(x, y);
 	sprite.setOrigin(50.0f, 30.0f);
+	count++;
 }
 
 AndGate::~AndGate()
 {
+	count--;
 }
 
 void AndGate::connectPin1(Object* in)
