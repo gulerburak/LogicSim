@@ -11,6 +11,8 @@
 #include "AndGate.h"
 #include "Simulator.h"
 #include "Palette.h"
+#include "VDDGND.h"
+
 using namespace std;
 
 int main()
@@ -67,6 +69,7 @@ int main()
 			
             if (event.type == sf::Event::MouseButtonPressed)
             {
+                simulator.unselectAll();
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
                 {
                     if (mousePos.x < 150) // if mouse is in item palette
@@ -90,9 +93,11 @@ int main()
                         
                         if (dummyPin != nullptr)
                         {
-							Wire* wire = new Wire(mousePos.x, mousePos.y, &window, dummyPin);
 							
-							simulator.addObject(wire);
+							Wire* wire = new Wire(mousePos.x, mousePos.y, &window, dummyPin);
+			                
+                            if (dummyPin->addWire(wire))
+							    simulator.addObject(wire);
 							
 						}
                         else
@@ -140,14 +145,29 @@ int main()
                                 dummyPin = simulator.getPinOnClick(static_cast<LogicElement*>(dummyObject),
                                                                    mousePos.x,
                                                                    mousePos.y);
-								dummyWire->setEndOfWire(dummyPin,
-                                                        mousePos.x,
-                                                        mousePos.y);
-                                simulator.setSelectedObject(nullptr);
-                                dummyWire = nullptr;
-							}
+                                
+								
+                                if (dummyPin->addWire(dummyWire))
+                                {
+                                    dummyWire->setEndOfWire(dummyPin,
+                                                            mousePos.x,
+                                                            mousePos.y);
+                                    simulator.setSelectedObject(nullptr);
+                                    dummyWire = nullptr;
+                                }
+                                else
+                                {
+                                    simulator.getSelectedWire()->getPinPtr(0)->numbwire--;
+										
+									
+                                    simulator.getSelectedWire()->selected = 1;
+                                    simulator.deleteObject();
+                                    simulator.setSelectedObject(nullptr);
+                                }
+                            }
 							else
 							{
+                                simulator.getSelectedWire()->getPinPtr(0)->numbwire--;
                                 simulator.getSelectedWire()->selected = 1;
                                 simulator.deleteObject();
                                 simulator.setSelectedObject(nullptr);

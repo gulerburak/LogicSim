@@ -10,7 +10,7 @@ public:
 	enum pinState { LOW, HIGH, HIGHZ }; //enum for pin state
 };
 
-class Pin : public _PinEnum 
+class Pin : public _PinEnum
 {
 protected:
 	int index; //Index of the pin for an element
@@ -24,26 +24,38 @@ protected:
 public:
 	Pin* connectedTo[5]; //List of other pins this pin is connected to
 	Object* wires[5]; //Wires connected to this pin
-	
-	Pin();
+	int numbwire = 0;
+	Object* dad;
 
-	void setIndex(int);	
-	void setType(pinType);	
-	int getType();	
+	Pin();
+	bool addWire(Object*);
+	void setIndex(int);
+	void setType(pinType);
+	int getType();
 	void setState(pinState);
 	int getState();
-	void setNumCon(int);	
+	void setNumCon(int);
 	void setPos(float, float);
 	sf::Vector2f getPos();
 };
 
 Pin::Pin()
 {
-	
+
 	cout << "Pin created" << endl;
 	state = HIGHZ;
 	numConnections = 0;
 
+}
+
+bool Pin::addWire(Object* wire)
+{
+	if (numbwire >= 5)
+		return false;
+	wires[numbwire] = wire;
+	numbwire++;
+	
+	return true;
 }
 
 void Pin::setIndex(int i)

@@ -21,9 +21,6 @@
     <ClCompile Include="Pin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Wire.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AndGate.h">
@@ -51,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Wire.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VDDGND.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
