@@ -193,6 +193,8 @@ void Simulator::unselectAll()
 		temp->selected = false;
 		temp = temp->next;
 	}
+	selectedObject = nullptr;
+	selectedWire = nullptr;
 }
 void Simulator::deletePicked()
 {

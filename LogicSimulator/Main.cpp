@@ -91,7 +91,7 @@ int main()
                         if (dummyPin != nullptr)
                         {
 							Wire* wire = new Wire(mousePos.x, mousePos.y, &window, dummyPin);
-							dummyWire = wire;
+							
 							simulator.addObject(wire);
 							
 						}
@@ -151,6 +151,7 @@ int main()
                                 simulator.getSelectedWire()->selected = 1;
                                 simulator.deleteObject();
                                 simulator.setSelectedObject(nullptr);
+                                
                             }
 						
                         }

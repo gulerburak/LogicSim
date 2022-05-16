@@ -44,6 +44,8 @@ void Wire::setStartofWire(Pin* start, float x, float y)
 {
 	pins[0] = start;
 	line[0].position = sf::Vector2f(x, y);
+
+	
 }
 
 void Wire::setEndOfWire(Pin* end, float x, float y)

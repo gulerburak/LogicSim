@@ -39,6 +39,7 @@ public:
 
 Pin::Pin()
 {
+	
 	cout << "Pin created" << endl;
 	state = HIGHZ;
 	numConnections = 0;
