@@ -42,13 +42,28 @@ public:
 void Simulator::Simulate()
 {
 	Object* temp = headObj;
-	while (temp->next != tailObj)
+	while (temp != nullptr)
+	{
+		if (temp->getObjType() != WIREtype)
+		{
+			LogicElement* t = static_cast<LogicElement*>(temp);
+			for (int i = 0; i < t->numPins; i++)
+				t->pins[i].setState(2);
+				
+
+		}
+		temp = temp->next;
+	}
+	
+	temp = headObj;
+	while (temp != nullptr)
 	{
 		if (temp->getObjType() == LEDtype)
 		{
 			//recursively calculate output of all connected wires
 			LogicElement* t = static_cast<LogicElement*>(temp);
 			t->state = calculateOutput(&(t->pins[0]));
+			cout <<"asdasd" << endl << t->state << endl;
 
 		}
 		temp = temp->next;
@@ -93,8 +108,10 @@ int Simulator::calculateOutput(Pin *pin)
 	}
 	else
 	{
+		cout << "not" << endl;
 		pin->setState(connection->getState());
-		return connection->getState();
+		cout << connection->getState() << endl;
+		return pin->getState();
 	}
 
 	
