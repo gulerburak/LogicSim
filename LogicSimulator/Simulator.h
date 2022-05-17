@@ -98,23 +98,22 @@ void Simulator::deleteObject()
 		tailObj = temp;
 		selectedObject = nullptr;
 	}
-	// add middle deletion
-	//else // delete middle 
-	//{
-	//	cout << "Deleting middle" << endl;
-	//	Object* temp = headObj;
-	//	while (temp->next->next != nullptr)
-	//	{
-	//		if (temp->next->selected)
-	//		{
-	//			temp->next = temp->next->next;
-	//			delete temp->next;
-	//			selected = nullptr;
-	//		}
-	//		temp = temp->next;
-	//	
-	//	}
-	//}
+	else // delete middle 
+	{
+		cout << "Deleting middle" << endl;
+		Object* temp = headObj;
+		while (temp->next != nullptr)
+		{
+			if (temp->next->selected)
+			{
+				temp->next = temp->next->next;
+				delete selectedObject;
+				selectedObject = nullptr;
+			}
+			temp = temp->next;
+		
+		}
+	}
 		 
 }
 

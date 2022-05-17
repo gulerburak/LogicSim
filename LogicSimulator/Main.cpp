@@ -74,13 +74,35 @@ int main()
                 {
                     if (mousePos.x < 150) // if mouse is in item palette
                     {
-                        // create new AndGate object
-						AndGate* andGate = new AndGate(&window , mousePos.x, mousePos.y);
-						
-                        dummyObject = andGate;
-						
-						// add object to simulator
-						simulator.addObject(andGate);
+                        if (mousePos.y > 50 && mousePos.y < 110) {// create new AndGate object
+                            AndGate* andGate = new AndGate(&window, mousePos.x, mousePos.y);
+
+                            dummyObject = andGate;
+
+                            // add object to simulator
+                            simulator.addObject(andGate);
+                        }else if (mousePos.y > 150 && mousePos.y < 210) {// create new OrGate object
+                            OrGate* orGate = new OrGate(&window, mousePos.x, mousePos.y);
+
+                            dummyObject = orGate;
+
+                            // add object to simulator
+                            simulator.addObject(orGate);
+                        }else if (mousePos.y > 250 && mousePos.y < 310) {// create new NotGate object
+                            NotGate* notGate = new NotGate(&window, mousePos.x, mousePos.y);
+
+                            dummyObject = notGate;
+
+                            // add object to simulator
+                            simulator.addObject(notGate);
+                        }else if (mousePos.y > 350 && mousePos.y < 410) {// create new XorGate object
+                            XorGate* xorGate = new XorGate(&window, mousePos.x, mousePos.y);
+
+                            dummyObject = xorGate;
+
+                            // add object to simulator
+                            simulator.addObject(xorGate);
+                        }
                     }
                     // look if clicked on existing object
                     else if (simulator.GetObjectOnClick(mousePos.x, mousePos.y) != nullptr)

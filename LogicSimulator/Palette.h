@@ -1,6 +1,9 @@
 #pragma once
 #include "Object.h"
 #include "AndGate.h"
+#include "OrGate.h"
+#include "XorGate.h"
+#include "NotGate.h"
 #include <SFML/Graphics.hpp>
 using namespace std;
 
@@ -27,21 +30,26 @@ void drawPalette(sf::RenderWindow* window, Object* obj)
 
 class Palette {
 	AndGate *AND;
-	AndGate *AND2;
-	AndGate *AND3;
+	OrGate *OR;
+	NotGate *NOT;
+	XorGate* XOR;
+
 	
 public:
 	Palette(sf::RenderWindow* window)	
 	{	
 		AND = new AndGate(window);
-		AND2 = new AndGate(window);
-		AND3 = new AndGate(window);
+		OR = new OrGate(window);
+		NOT = new NotGate(window);
+		XOR = new XorGate(window);
 		AND->sprite.setPosition(10, 50);
-		AND->next = AND2;
-		AND2->sprite.setPosition(10, 150);
-		AND2->next = AND3;
-		AND3->sprite.setPosition(10, 250);
-		AND3->next = nullptr;
+		AND->next = OR;
+		OR->sprite.setPosition(10, 150);
+		OR->next = NOT;
+		NOT->sprite.setPosition(10, 250);
+		NOT->next = XOR;
+		XOR->sprite.setPosition(10, 350);
+		XOR->next = nullptr;
 	}
 	Object* getTop()
 	{
