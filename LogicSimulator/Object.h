@@ -1,14 +1,13 @@
 #pragma once
-enum objType { AND, OR, XOR, NOT, WIREclass, LED, Logic_0, Logic_1 };
+
+enum objType { AND, OR, XOR, NOT, WIREtype, LEDtype, Logic0, Logic1 };
 
 class Object
 {
 protected:
-
-public:
-	static int count;
-
 	objType objID;
+public:
+	friend class Simulator;
 	Object* next; //Pointer to next object in the list
 	bool locked; //Whether the object can move on screen or is fixed
 	//You can use this flag for toolbar items which cannot move
@@ -20,6 +19,10 @@ public:
 	bool state; //State of the logic element (may be used to designate button state; // D - flipflop state or whether LED is on or off)
 	bool selected; //Whether the object is selected for deletion 
 	virtual void drawObject(sf::RenderWindow*) = 0;
+	objType getObjType();
 };
 
-int Object::count = 0;
+objType Object::getObjType()
+{
+	return objID;
+}

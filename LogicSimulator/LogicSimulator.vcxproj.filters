@@ -53,5 +53,8 @@
     <ClInclude Include="VDDGND.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LED.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

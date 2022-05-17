@@ -1,13 +1,14 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Wire.h"
 using namespace std;
 
 class _PinEnum
 {
 public:
-	enum pinType { INPUT, OUTPUT }; //enum for pin type (input or output pin)
-	enum pinState { LOW, HIGH, HIGHZ }; //enum for pin state
+	static enum pinType { INPUT, OUTPUT }; //enum for pin type (input or output pin)
+	static enum pinState { LOW, HIGH, HIGHZ }; //enum for pin state
 };
 
 class Pin : public _PinEnum
@@ -47,7 +48,6 @@ Pin::Pin()
 	numConnections = 0;
 
 }
-
 bool Pin::addWire(Object* wire)
 {
 	if (numbwire >= 5)

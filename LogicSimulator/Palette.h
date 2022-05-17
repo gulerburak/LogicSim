@@ -1,6 +1,8 @@
 #pragma once
 #include "Object.h"
 #include "AndGate.h"
+#include "VDDGND.h"
+#include "LED.h"
 #include <SFML/Graphics.hpp>
 using namespace std;
 
@@ -27,25 +29,43 @@ void drawPalette(sf::RenderWindow* window, Object* obj)
 
 class Palette {
 	AndGate *AND;
-	AndGate *AND2;
-	AndGate *AND3;
+	Logic_1 *L1;
+	Logic_0* L0;
+	LED* led;
 	
 public:
 	Palette(sf::RenderWindow* window)	
 	{	
-		AND = new AndGate(window);
-		AND2 = new AndGate(window);
-		AND3 = new AndGate(window);
-		AND->sprite.setPosition(10, 50);
-		AND->next = AND2;
-		AND2->sprite.setPosition(10, 150);
-		AND2->next = AND3;
-		AND3->sprite.setPosition(10, 250);
-		AND3->next = nullptr;
+		
+		L1 = new Logic_1(window, 75, 100);
+		L0 = new Logic_0(window, 75, 200);
+		led = new LED(window, 75, 300);
+		led->state = true;
+		AND = new AndGate(window, 75, 400);
+		
+		L1->next = L0;
+		L0->next = led;
+		led->next = AND;
+		AND->next = nullptr;
 	}
 	Object* getTop()
 	{
-		return AND;
+		return L1;
 	}
-	
+	Object* GetObjectOnClick(float, float);
 };
+
+Object* Palette::GetObjectOnClick(float x, float y)
+{
+	Object* temp = L1;
+	while (temp != nullptr)
+	{
+
+		if (temp->sprite.getGlobalBounds().contains(x, y))
+			return temp;
+
+		temp = temp->next;
+	}
+	return nullptr;
+
+}

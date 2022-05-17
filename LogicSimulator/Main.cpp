@@ -12,6 +12,7 @@
 #include "Simulator.h"
 #include "Palette.h"
 #include "VDDGND.h"
+#include "LED.h"
 
 using namespace std;
 
@@ -72,15 +73,24 @@ int main()
                 simulator.unselectAll();
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
                 {
-                    if (mousePos.x < 150) // if mouse is in item palette
+                    if (mousePos.x < 150 ) // if mouse is in item palette
                     {
-                        // create new AndGate object
-						AndGate* andGate = new AndGate(&window , mousePos.x, mousePos.y);
-						
-                        dummyObject = andGate;
-						
-						// add object to simulator
-						simulator.addObject(andGate);
+                        // create new object by type
+                        dummyObject = palette.GetObjectOnClick(mousePos.x, mousePos.y);
+						if(dummyObject != nullptr)
+						{
+                            dummyObject = simulator.createObjectbyType(dummyObject->getObjType(),
+                                                                       mousePos.x,
+                                                                       mousePos.y);
+                            simulator.addObject(dummyObject);
+							
+						}
+						//AndGate* andGate = new AndGate(&window , mousePos.x, mousePos.y);
+						//
+      //                  dummyObject = andGate;
+						//
+						//// add object to simulator
+						//simulator.addObject(andGate);
                     }
                     // look if clicked on existing object
                     else if (simulator.GetObjectOnClick(mousePos.x, mousePos.y) != nullptr)
@@ -159,7 +169,7 @@ int main()
                                 {
                                     simulator.getSelectedWire()->getPinPtr(0)->numbwire--;
 										
-									
+	
                                     simulator.getSelectedWire()->selected = 1;
                                     simulator.deleteObject();
                                     simulator.setSelectedObject(nullptr);

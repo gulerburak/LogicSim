@@ -1,6 +1,9 @@
 #pragma once
 #include "Object.h"
 #include "Pin.h"
+#include "VDDGND.h"
+#include "LED.h"
+
 #include <SFML/Graphics.hpp>
 using namespace std;
 
@@ -32,6 +35,7 @@ public:
 	void unselectAll();
 	void deletePicked();
 	
+	Object* createObjectbyType(objType type, float, float);
 };
 
 Simulator::Simulator(sf::RenderWindow* window)
@@ -64,7 +68,7 @@ void Simulator::addObject(Object* newObj)
 		tailObj-> next = newObj;
 		tailObj = newObj;
 	}
-	if (newObj->objID == WIREclass) // if object is wire
+	if (newObj->objID == WIREtype) // if object is wire
 	{
 		selectedWire = static_cast<Wire*>(newObj);
 		return;
@@ -158,23 +162,81 @@ Object* Simulator::GetObjectOnClick(float x, float y)
 
 Pin* Simulator::getPinOnClick(LogicElement* obj, float x, float y)
 { 
-	if (x > (obj->sprite.getPosition().x + 20)) // if on right half
+	// return pin by object type
+	switch (obj->getObjType())
 	{
-		cout << "Right" << endl;
-		return &obj->pins[2];
+		case AND:
+		case OR:
+		case XOR:
+			if (x > (obj->sprite.getPosition().x + 20)) // if on right half
+			{
+				cout << "Out" << endl;
+				return &obj->pins[2];
+			}
+			else if (x < (obj->sprite.getPosition().x - 20)) // if on left half
+			{
+				if (y > obj->sprite.getPosition().y) // if on bottom half
+				{
+					cout << "In1" << endl;
+					return &obj->pins[1];
+				}
+				else {
+					cout << "In2" << endl;
+					return &obj->pins[0];
+				}
+			}
+			break;
+		case Logic1:
+			if (y > (obj->sprite.getPosition().y)) // if on bottom half
+			{
+				cout << "VddOut" << endl;
+				return &obj->pins[0];
+			}
+			
+			break;
+		case Logic0:
+			if (y < (obj->sprite.getPosition().y)) // if on top half
+			{
+				cout << "GNDin" << endl;
+				return &obj->pins[0];
+			}
+			break;
+		case LEDtype:
+			if (y > obj->sprite.getPosition().y)
+			{
+				if ( x > obj->sprite.getPosition().x)
+				{
+					cout << "LEDOut" << endl;
+					return &obj->pins[1];
+				}
+				else
+				{
+					cout << "LEDIn" << endl;
+					return &obj->pins[0];
+				}
+			}
+			break;
+		
+			
+		
 	}
-	else if (x < (obj->sprite.getPosition().x - 20)) // if on left half
-	{
-		if (y > obj->sprite.getPosition().y) // if on bottom half
-		{
-			cout << "Bottom" << endl;
-			return &obj->pins[1];
-		}
-		else {
-			cout << "Top" << endl;
-			return &obj->pins[0];
-		}
-	}
+	//if (x > (obj->sprite.getPosition().x + 20)) // if on right half
+	//{
+	//	cout << "Right" << endl;
+	//	return &obj->pins[2];
+	//}
+	//else if (x < (obj->sprite.getPosition().x - 20)) // if on left half
+	//{
+	//	if (y > obj->sprite.getPosition().y) // if on bottom half
+	//	{
+	//		cout << "Bottom" << endl;
+	//		return &obj->pins[1];
+	//	}
+	//	else {
+	//		cout << "Top" << endl;
+	//		return &obj->pins[0];
+	//	}
+	//}
 	return nullptr;
 }
 
@@ -223,4 +285,26 @@ void Simulator::deletePicked()
 			
 		temp = temp->next;
 	}*/
+}
+
+Object* Simulator::createObjectbyType(objType type, float x, float y)
+{
+	switch (type)
+	{
+	case AND:
+		return new AndGate(window, x, y);
+		break;
+	case Logic1:
+		return new Logic_1(window, x, y);
+		break;
+	case Logic0:
+		return new Logic_0(window, x, y);
+		break;
+	case LEDtype:
+		return new LED(window, x, y);
+		break;
+	/*default:
+		return nullptr;
+		break;*/
+	}
 }

@@ -20,7 +20,7 @@ public:
 
 Wire::Wire(float x, float y, sf::RenderWindow* window, Pin* start)
 {
-	objID = WIREclass;
+	objID = WIREtype;
 	this->window = window;
 	selected = false;
 	state = 0;
@@ -31,13 +31,11 @@ Wire::Wire(float x, float y, sf::RenderWindow* window, Pin* start)
 	line[0].position = sf::Vector2f(x, y);
 	pins[1] = nullptr;
 	line[1].position = sf::Vector2f(x, y);
-	
-	count++;
 }
 
 Wire::~Wire()
 {
-	count--;
+	
 }
 
 void Wire::setStartofWire(Pin* start, float x, float y)
