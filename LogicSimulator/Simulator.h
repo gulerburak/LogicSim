@@ -34,9 +34,72 @@ public:
 	void createWire(Pin*, float, float);
 	void unselectAll();
 	void deletePicked();
+
+	int calculateOutput(Pin*);
 	
 	Object* createObjectbyType(objType type, float, float);
 };
+void Simulator::Simulate()
+{
+	Object* temp = headObj;
+	while (temp->next != tailObj)
+	{
+		if (temp->getObjType() == LEDtype)
+		{
+			//recursively calculate output of all connected wires
+			LogicElement* t = static_cast<LogicElement*>(temp);
+			t->state = calculateOutput(&(t->pins[0]));
+
+		}
+		temp = temp->next;
+	}
+
+}
+int Simulator::calculateOutput(Pin *pin)
+{
+	
+	Pin* connection = pin->connectedTo[0];
+	
+	if (connection == nullptr)
+		return 0;
+	
+	cout << "a1" << endl;
+	if (connection->getState() == 2)
+	{
+		cout << "a2" << endl;
+		Object* temp = connection->dad;
+		LogicElement* object = static_cast<LogicElement*>(temp);
+		cout << "a3" << endl;
+		cout << (connection->dad == nullptr) << endl;
+		cout << object << endl;
+		for (int i = 0; i < object->numPins; i++)
+		{
+			cout << "a4" << endl;
+			Pin* object_pin = &(object->pins[i]);
+			if (object_pin != nullptr)
+			{
+				cout << object_pin;
+				if (object_pin->getType() != OUTPUT)
+				{
+					cout << "a5" << endl;
+					int re = calculateOutput(object_pin);
+					object_pin->setState(re);
+				}
+			}
+		}
+		object->calculateState(object);
+		
+		return connection->getState();
+	}
+	else
+	{
+		pin->setState(connection->getState());
+		return connection->getState();
+	}
+
+	
+}
+
 
 Simulator::Simulator(sf::RenderWindow* window)
 {

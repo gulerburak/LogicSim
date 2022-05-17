@@ -162,6 +162,8 @@ int main()
                                     dummyWire->setEndOfWire(dummyPin,
                                                             mousePos.x,
                                                             mousePos.y);
+                                    dummyWire->conncetPins();
+									
                                     simulator.setSelectedObject(nullptr);
                                     dummyWire = nullptr;
                                 }
@@ -220,12 +222,17 @@ int main()
                     cout << "Deleting2" << endl;
                     simulator.deleteObject();
                 }
+                if (event.key.code == sf::Keyboard::Enter);
+                {
+                    cout << "Simlating" << endl;
+                    simulator.Simulate();
+                }
             }
             
         }
 		
         // draw palette and objects
-        window.clear(sf::Color::Black);
+        window.clear(sf::Color::Color(211, 211, 211, 255));
         window.draw(background);
         drawPalette(&window, palette.getTop());
         drawPalette(&window, simulator.getTop());

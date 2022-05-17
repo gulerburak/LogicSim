@@ -7,14 +7,12 @@ class LogicElement :public Object {
 public:
 	Pin pins[4];
 	int numPins; //Number of pins of the logic element
-	void setPinsDad(Object*);
+	
+	virtual int calculateState(LogicElement*)=0;
 };
 
-void LogicElement::setPinsDad(Object *dad)
-{
-	for (int i = 0; i < numPins; i++)
-	{
-		pins[i].dad = dad;
-	}
 
+int LogicElement::calculateState(LogicElement* x)
+{
+	return 0;
 }

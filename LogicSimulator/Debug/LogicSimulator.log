@@ -1,6 +1,4 @@
 ﻿  Main.cpp
-C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Pin.h(10): warning C4091: 'static ': ignored on left of '_PinEnum::pinType' when no variable is declared
-C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Pin.h(11): warning C4091: 'static ': ignored on left of '_PinEnum::pinState' when no variable is declared
 C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(79,84): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
           with
           [
@@ -131,5 +129,6 @@ C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(163,69): warn
           [
               T=int
           ]
-C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Simulator.h(310): warning C4715: 'Simulator::createObjectbyType': not all control paths return a value
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(225,59): warning C4390: ';': empty controlled statement found; is this the intent?
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Simulator.h(373): warning C4715: 'Simulator::createObjectbyType': not all control paths return a value
   LogicSimulator.vcxproj -> C:\Users\nuke\source\repos\TemplateProject\Debug\LogicSimulator.exe
