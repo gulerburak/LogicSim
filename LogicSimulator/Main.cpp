@@ -9,6 +9,11 @@
 #include "Pin.h"
 #include "LogicElement.h"
 #include "AndGate.h"
+#include "OrGate.h"
+#include "NotGate.h"
+#include "XorGate.h"
+#include "Dff.h"
+#include "Clock.h"
 #include "Simulator.h"
 #include "Palette.h"
 #include "VDDGND.h"
@@ -41,7 +46,7 @@ int main()
     background.setPosition(0, 0);
 	
     // create the window
-    sf::RenderWindow window(sf::VideoMode(1024, 768), "Logic Simulator");
+    sf::RenderWindow window(sf::VideoMode(1024, 1024), "Logic Simulator");
 	window.setFramerateLimit(144);
     sf::Clock clock;
     Palette palette(&window);
@@ -97,7 +102,7 @@ int main()
                     {
 					    dummyObject = simulator.GetObjectOnClick(mousePos.x, mousePos.y);
 						cout << "mouse " << mousePos.x << " " << mousePos.y << endl;
-						
+                        simulator.setSelectedObject(dummyObject);
 						// if clicked on pin of object, add wire to simulator
 						Pin* dummyPin = simulator.getPinOnClick(static_cast<LogicElement*>(dummyObject), mousePos.x, mousePos.y);
                         
@@ -107,8 +112,8 @@ int main()
 							Wire* wire = new Wire(mousePos.x, mousePos.y, &window, dummyPin);
 			                
                             if (dummyPin->addWire(wire))
-							    simulator.addObject(wire);
-							
+                                simulator.addObject(wire);
+                                
 						}
                         else
                             simulator.GetObjectOnClick(mousePos.x, mousePos.y)->selected = true;
@@ -222,7 +227,7 @@ int main()
                     cout << "Deleting2" << endl;
                     simulator.deleteObject();
                 }
-                if (event.key.code == sf::Keyboard::Enter);
+                if (event.key.code == sf::Keyboard::Enter)
                 {
                     cout << "Simlating" << endl;
                     simulator.Simulate();
