@@ -33,7 +33,6 @@ int NotGate::calculateState(LogicElement* x)
 	// reverse the input
 	(x->pins[0].getState()) ? x->pins[1].setState(0) : x->pins[1].setState(1);
 	
-	//x->pins[1].setState(1 - (x->pins[0].getState()));
 	return x->pins[1].getState();
 
 }

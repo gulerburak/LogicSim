@@ -33,10 +33,12 @@ DffGate::DffGate(sf::RenderWindow* window, float x, float y)
 	sprite.setOrigin(37.0f, 30.0f);
 	sprite.setPosition(x, y);
 }
+
 int DffGate::calculateState(LogicElement* x)
 {
 	return 0;
 }
+
 DffGate::~DffGate()
 {
 

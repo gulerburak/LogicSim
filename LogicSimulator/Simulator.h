@@ -24,6 +24,9 @@ public:
 	void addObject(Object*);
 	void deleteObject();
 	//void deleteWire();
+	void resetAllPins();
+	void resetAllLEDs();
+	void switchClock();
 	void Simulate();
 	Object* getTop();
 	Object* getSelectedObject();
@@ -49,7 +52,7 @@ public:
 	}
 }*/
 
-void Simulator::Simulate()
+void Simulator::resetAllPins()
 {
 	Object* temp = headObj;
 	while (temp != nullptr)
@@ -59,12 +62,39 @@ void Simulator::Simulate()
 			LogicElement* t = static_cast<LogicElement*>(temp);
 			for (int i = 0; i < t->numPins; i++)
 				t->pins[i].setState(2);
-				
+
 
 		}
 		temp = temp->next;
 	}
+}
+
+void Simulator::resetAllLEDs()
+{
+	Object* temp = headObj;
+	while (temp != nullptr)
+	{
+		if (temp->getObjType() == LEDtype) temp->state = 0;
+		temp = temp->next;
+	}
+}
+
+void Simulator::switchClock()
+{	
+	cout << "Clock switched" << endl;
+	Object* temp = headObj;
+	while (temp != nullptr)
+	{
+		if (temp->getObjType() == CLOCK) temp->state = !temp->state;
+		temp = temp->next;
+	}
+}
+
+void Simulator::Simulate()
+{
 	
+	resetAllPins();
+	Object* temp = headObj;
 	temp = headObj;
 	while (temp != nullptr)
 	{

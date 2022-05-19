@@ -43,6 +43,7 @@ class Palette {
 	Logic_1*L1;
 	Logic_0* L0;
 	LED* led;
+	StartStopButton* startstop;
 	
 public:
 	Palette(sf::RenderWindow* window)	
@@ -58,6 +59,9 @@ public:
 		XOR = new XorGate(window, 75, 400);
 		DFF = new DffGate(window, 75, 500);
 		CLOCK = new Clock(window, 75, 600);
+		startstop = new StartStopButton(window, 150, 0);
+
+		
 		
 		AND->next = OR;
 		OR->next = NOT;
@@ -67,7 +71,8 @@ public:
 		CLOCK->next = L1;
 		L1->next=L0;
 		L0->next = led;
-		led->next = nullptr;
+		led->next = startstop;
+		startstop->next = nullptr;
 	}
 	Object* getTop()
 	{

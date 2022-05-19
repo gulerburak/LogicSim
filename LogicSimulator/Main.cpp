@@ -55,7 +55,7 @@ int main()
 	
 	// create simulator class and pass window
     Simulator simulator(&window);
-	
+    bool isSimulating = 0;
     // run the program as long as the window is open
     while (window.isOpen())
     {
@@ -78,7 +78,32 @@ int main()
                 simulator.unselectAll();
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
                 {
-                    if (mousePos.x < 150 ) // if mouse is in item palette
+                    if (mousePos.y < 36) // if mouse on startstop area
+                    {
+                        dummyObject = palette.GetObjectOnClick(mousePos.x, mousePos.y);
+						if (dummyObject != nullptr)
+						{
+							if (dummyObject->getObjType() == BUTTON)
+							{
+                                cout << "Button clicked" << endl;
+								if (isSimulating)
+								{
+									isSimulating = false;
+                                    dummyObject->state = 1;
+                                    simulator.resetAllLEDs();
+								}
+								else
+								{
+									isSimulating = true;
+                                    dummyObject->state = 0;
+								}
+							}
+						}
+                        !isSimulating;
+						
+						
+                    }
+                    else if (mousePos.x < 150) // if mouse is on item palette
                     {
                         // create new object by type
                         dummyObject = palette.GetObjectOnClick(mousePos.x, mousePos.y);
@@ -147,7 +172,7 @@ int main()
 			
             if (event.type == sf::Event::MouseButtonReleased)
             {
-                if (mousePos.x > 150) // if mouse is not in command palette
+                if (mousePos.x > 150 && mousePos.y > 36) // if mouse is not in command palette
                 {
                     if (event.mouseButton.button == sf::Mouse::Left)
                     {
@@ -227,13 +252,23 @@ int main()
                     cout << "Deleting2" << endl;
                     simulator.deleteObject();
                 }
-                if (event.key.code == sf::Keyboard::Enter)
+                /*if (event.key.code == sf::Keyboard::Enter)
                 {
                     cout << "Simlating" << endl;
                     simulator.Simulate();
-                }
+                }*/
             }
             
+        }
+		
+        if (isSimulating)
+        {
+			cout << "Simulatinggg" << endl;
+			simulator.Simulate();
+            float elapsed = clock.getElapsedTime().asSeconds();
+           
+            cout << elapsed << endl;
+			if (elapsed > 1) simulator.switchClock();
         }
 		
         // draw palette and objects

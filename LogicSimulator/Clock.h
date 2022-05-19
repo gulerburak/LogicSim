@@ -21,11 +21,8 @@ Clock::Clock(sf::RenderWindow* window, float x, float y)
 	numPins = 1;
 	pins[0].setType(OUTPUT);
 	pins[0].setState(1);
-
+	state = 1;
 	pins[0].dad = this;
-
-
-
 	textures[0].loadFromFile("../assets/CLOCK.png");
 	sprite.setTexture(textures[0]);
 	sprite.setOrigin(30.0f, 30.0f);
@@ -34,6 +31,7 @@ Clock::Clock(sf::RenderWindow* window, float x, float y)
 
 int Clock::calculateState(LogicElement* x)
 {
+	x->pins[0].setState(state);
 	return x->pins[0].getState();
 }
 
