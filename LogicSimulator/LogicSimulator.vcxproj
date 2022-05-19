@@ -146,20 +146,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Pin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AndGate.h" />
     <ClInclude Include="Clock.h" />
+    <ClInclude Include="Dff.h" />
     <ClInclude Include="DoublyLinkedList.h" />
     <ClInclude Include="LED.h" />
     <ClInclude Include="LogicElement.h" />
+    <ClInclude Include="NotGate.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="OrGate.h" />
     <ClInclude Include="Palette.h" />
     <ClInclude Include="Pin.h" />
     <ClInclude Include="Simulator.h" />
+    <ClInclude Include="StartStopButton.h" />
     <ClInclude Include="VDDGND.h" />
     <ClInclude Include="Wire.h" />
+    <ClInclude Include="XorGate.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

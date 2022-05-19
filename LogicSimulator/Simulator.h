@@ -23,6 +23,10 @@ public:
 	~Simulator();
 	void addObject(Object*);
 	void deleteObject();
+	//void deleteWire();
+	void resetAllPins();
+	void resetAllLEDs();
+	void switchClock();
 	void Simulate();
 	Object* getTop();
 	Object* getSelectedObject();
@@ -39,22 +43,58 @@ public:
 	
 	Object* createObjectbyType(objType type, float, float);
 };
-void Simulator::Simulate()
+/*void Simulator::deleteWire() {
+	Object* temp = headObj;
+	while (temp != nullptr) {
+		if (temp->selected) {
+			if()
+		}
+	}
+}*/
+
+void Simulator::resetAllPins()
 {
 	Object* temp = headObj;
 	while (temp != nullptr)
 	{
-		if (temp->getObjType() != WIREtype)
+		if (temp->getObjType() != (WIREtype || Logic0 || Logic1))
 		{
 			LogicElement* t = static_cast<LogicElement*>(temp);
 			for (int i = 0; i < t->numPins; i++)
 				t->pins[i].setState(2);
-				
+
 
 		}
 		temp = temp->next;
 	}
+}
+
+void Simulator::resetAllLEDs()
+{
+	Object* temp = headObj;
+	while (temp != nullptr)
+	{
+		if (temp->getObjType() == LEDtype) temp->state = 0;
+		temp = temp->next;
+	}
+}
+
+void Simulator::switchClock()
+{	
+	cout << "Clock switched" << endl;
+	Object* temp = headObj;
+	while (temp != nullptr)
+	{
+		if (temp->getObjType() == CLOCK) temp->state = !temp->state;
+		temp = temp->next;
+	}
+}
+
+void Simulator::Simulate()
+{
 	
+	resetAllPins();
+	Object* temp = headObj;
 	temp = headObj;
 	while (temp != nullptr)
 	{
@@ -182,23 +222,22 @@ void Simulator::deleteObject()
 		tailObj = temp;
 		selectedObject = nullptr;
 	}
-	// add middle deletion
-	//else // delete middle 
-	//{
-	//	cout << "Deleting middle" << endl;
-	//	Object* temp = headObj;
-	//	while (temp->next->next != nullptr)
-	//	{
-	//		if (temp->next->selected)
-	//		{
-	//			temp->next = temp->next->next;
-	//			delete temp->next;
-	//			selected = nullptr;
-	//		}
-	//		temp = temp->next;
-	//	
-	//	}
-	//}
+	else // delete middle 
+	{
+		cout << "Deleting middle" << endl;
+		Object* temp = headObj;
+		while (temp->next != nullptr)
+		{
+			if (temp->next->selected)
+			{
+				temp->next = temp->next->next;
+				delete selectedObject;
+				selectedObject = nullptr;
+			}
+			temp = temp->next;
+
+		}
+	}
 		 
 }
 
@@ -296,6 +335,44 @@ Pin* Simulator::getPinOnClick(LogicElement* obj, float x, float y)
 				}
 			}
 			break;
+		case NOT:
+			if (x > (obj->sprite.getPosition().x + 20)) // if on right half
+			{
+				cout << "Out" << endl;
+				return &obj->pins[1];
+			}
+			else if (x < (obj->sprite.getPosition().x - 20)) // if on left half
+			{
+				cout << "In" << endl;
+				return &obj->pins[0];
+			}
+			break;
+		case DFF:
+			if (x > (obj->sprite.getPosition().x + 20)) // if on right half
+			{
+				if (y > obj->sprite.getPosition().y) {
+					cout << "Q1" << endl;
+					return &obj->pins[3];
+				}
+				else {
+					cout << "Q1_" << endl;
+					return &obj->pins[2];
+				}
+				
+			}
+			else if (x < (obj->sprite.getPosition().x - 20)) // if on left half
+			{
+				if (y > obj->sprite.getPosition().y) // if on bottom half
+				{
+					cout << "Clock" << endl;
+					return &obj->pins[1];
+				}
+				else {
+					cout << "D" << endl;
+					return &obj->pins[0];
+				}
+			}
+
 		
 			
 		
@@ -369,10 +446,26 @@ void Simulator::deletePicked()
 
 Object* Simulator::createObjectbyType(objType type, float x, float y)
 {
+	
 	switch (type)
 	{
 	case AND:
 		return new AndGate(window, x, y);
+		break;
+	case OR:
+		return new OrGate(window, x, y);
+		break;
+	case NOT:
+		return new NotGate(window, x, y);
+		break;
+	case XOR:
+		return new XorGate(window, x, y);
+		break;
+	case DFF:
+		return new DffGate(window, x, y);
+		break;
+	case CLOCK:
+		return new Clock(window, x, y);
 		break;
 	case Logic1:
 		return new Logic_1(window, x, y);
