@@ -6,7 +6,7 @@ class NotGate : public LogicElement {
 public:
 
 	NotGate(sf::RenderWindow* window, float x, float y);
-	//int calculateState(LogicElement*);
+	int calculateState(LogicElement*);
 	~NotGate();
 	void drawObject(sf::RenderWindow*);
 };
@@ -27,16 +27,16 @@ NotGate::NotGate(sf::RenderWindow* window, float x, float y)
 	sprite.setOrigin(50.0f, 30.0f);
 	sprite.setPosition(x, y);
 }
-/*int NotGate::calculateState(LogicElement* x)
-{
-	if (x->pins[0].getState() == 1) {
-		return x->pins[1].setState(0);
-	}
-	else {
-		return x->pins[1].setState(1);
-	}
 
-}*/
+int NotGate::calculateState(LogicElement* x)
+{
+	// reverse the input
+	(x->pins[0].getState()) ? x->pins[1].setState(0) : x->pins[1].setState(1);
+	
+	//x->pins[1].setState(1 - (x->pins[0].getState()));
+	return x->pins[1].getState();
+
+}
 NotGate::~NotGate()
 {
 

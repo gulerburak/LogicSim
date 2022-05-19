@@ -54,7 +54,7 @@ void Simulator::Simulate()
 	Object* temp = headObj;
 	while (temp != nullptr)
 	{
-		if (temp->getObjType() != WIREtype)
+		if (temp->getObjType() != (WIREtype || Logic0 || Logic1))
 		{
 			LogicElement* t = static_cast<LogicElement*>(temp);
 			for (int i = 0; i < t->numPins; i++)
@@ -425,18 +425,18 @@ Object* Simulator::createObjectbyType(objType type, float x, float y)
 	case OR:
 		return new OrGate(window, x, y);
 		break;
-	//case NOT:
-	//	return new NotGate(window, x, y);
-	//	break;
+	case NOT:
+		return new NotGate(window, x, y);
+		break;
 	case XOR:
 		return new XorGate(window, x, y);
 		break;
-	//case DFF:
-	//	return new DffGate(window, x, y);
-	//	break;
-	//case CLOCK:
-	//	return new Clock(window, x, y);
-	//	break;
+	case DFF:
+		return new DffGate(window, x, y);
+		break;
+	case CLOCK:
+		return new Clock(window, x, y);
+		break;
 	case Logic1:
 		return new Logic_1(window, x, y);
 		break;

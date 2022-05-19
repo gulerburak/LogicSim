@@ -1,1 +1,134 @@
-﻿  LogicSimulator.vcxproj -> C:\Users\nuke\source\repos\TemplateProject\Debug\LogicSimulator.exe
+﻿  Main.cpp
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Simulator.h(57,49): warning C4805: '!=': unsafe mix of type 'objType' and type 'bool' in operation
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(84,84): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(84,72): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(89,80): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(88,80): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(101,77): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(101,65): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(103,71): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(103,59): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(107,108): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(107,96): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(112,50): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(112,38): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(119,76): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(119,64): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(137,60): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(137,48): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(143,77): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(143,65): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(157,80): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(157,68): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(159,94): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(159,82): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(162,76): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(161,76): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(169,69): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Main.cpp(168,69): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\nuke\source\repos\TemplateProject\LogicSimulator\Simulator.h(453): warning C4715: 'Simulator::createObjectbyType': not all control paths return a value
+  LogicSimulator.vcxproj -> C:\Users\nuke\source\repos\TemplateProject\Debug\LogicSimulator.exe

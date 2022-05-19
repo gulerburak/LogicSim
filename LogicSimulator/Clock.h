@@ -8,7 +8,7 @@ class Clock : public LogicElement
 	//sf::Clock clock;
 public:
 	Clock(sf::RenderWindow* window, float, float);
-	//int calculateState(LogicElement*);
+	int calculateState(LogicElement*);
 	~Clock();
 	void drawObject(sf::RenderWindow*);
 };
@@ -32,10 +32,10 @@ Clock::Clock(sf::RenderWindow* window, float x, float y)
 	sprite.setPosition(x, y);
 }
 
-//int Clock::calculateState(LogicElement* x)
-//{
-//	return x->pins[0].getState();
-//}
+int Clock::calculateState(LogicElement* x)
+{
+	return x->pins[0].getState();
+}
 
 void Clock::drawObject(sf::RenderWindow*)
 {

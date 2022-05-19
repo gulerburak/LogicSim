@@ -8,6 +8,7 @@
 #include "Clock.h"
 #include "VDDGND.h"
 #include "LED.h"
+#include "StartStopButton.h"
 #include <SFML/Graphics.hpp>
 using namespace std;
 
@@ -53,17 +54,17 @@ public:
 		led->state = true;
 		AND = new AndGate(window, 75, 100);
 		OR = new OrGate(window, 75, 200);
-		//NOT = new NotGate(window, 75, 300);
+		NOT = new NotGate(window, 75, 300);
 		XOR = new XorGate(window, 75, 400);
-		//DFF = new DffGate(window, 75, 500);
-		//CLOCK = new Clock(window, 75, 600);
+		DFF = new DffGate(window, 75, 500);
+		CLOCK = new Clock(window, 75, 600);
 		
 		AND->next = OR;
-		OR->next = XOR;
-		//NOT->next = XOR;
-		XOR->next = L1;
-		//DFF->next = CLOCK;
-		//CLOCK->next = L1;
+		OR->next = NOT;
+		NOT->next = XOR;
+		XOR->next = DFF;
+		DFF->next = CLOCK;
+		CLOCK->next = L1;
 		L1->next=L0;
 		L0->next = led;
 		led->next = nullptr;

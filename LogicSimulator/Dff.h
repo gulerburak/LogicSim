@@ -6,7 +6,7 @@ class DffGate : public LogicElement {
 public:
 
 	DffGate(sf::RenderWindow* window, float x, float y);
-	//int calculateState(LogicElement*);
+	int calculateState(LogicElement*);
 	~DffGate();
 	void drawObject(sf::RenderWindow*);
 };
@@ -30,13 +30,13 @@ DffGate::DffGate(sf::RenderWindow* window, float x, float y)
 
 	textures[0].loadFromFile("../assets/dff_edited.png");
 	sprite.setTexture(textures[0]);
-	sprite.setOrigin(50.0f, 30.0f);
+	sprite.setOrigin(37.0f, 30.0f);
 	sprite.setPosition(x, y);
 }
-//int DffGate::calculateState(LogicElement* x)
-//{
-//
-//}
+int DffGate::calculateState(LogicElement* x)
+{
+	return 0;
+}
 DffGate::~DffGate()
 {
 

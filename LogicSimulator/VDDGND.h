@@ -39,12 +39,13 @@ Logic_1::Logic_1(sf::RenderWindow* window, float x,float y)
 }
 
 int Logic_1::calculateState(LogicElement* x )
-{
+{	
+	x->pins[0].setState(1);
 	return x->pins[0].getState();
 }
 int Logic_0::calculateState(LogicElement* x)
 {
-	
+	x->pins[0].setState(0);
 	return x->pins[0].getState();
 }
 
