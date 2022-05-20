@@ -20,6 +20,14 @@
 #include "LED.h"
 using namespace std;
 
+//static const float view_height = 1024.0f;
+
+//void Resize_view(const sf::RenderWindow& window, sf::View& view) {
+//    
+//   float aspect_ratio = float(window.getSize().x) / float(window.getSize().y);
+//    view.setSize(view_height * aspect_ratio, view_height);
+//}
+
 int main()
 {    
     /*sf::Sprite sprite;
@@ -43,7 +51,8 @@ int main()
     background.setSize(sf::Vector2f(150, 1000));
     background.setFillColor(sf::Color::Magenta);
     background.setPosition(0, 0);
-	
+
+   // sf::View view(sf::Vector2f(512.0f, 512.0f), sf::Vector2f(view_height, view_height));
     // create the window
     sf::RenderWindow window(sf::VideoMode(1024, 1024), "Logic Simulator");
 	window.setFramerateLimit(144);
@@ -64,8 +73,13 @@ int main()
 
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
                 window.close();
+            }
+            //if (event.type == sf::Event::Resized) {
+            //    Resize_view(window, view);
+            //}
+            
 			
             // create a dummy pointer to use
             Object* dummyObject = nullptr;
@@ -266,9 +280,9 @@ int main()
 			simulator.Simulate();
             sf::Time elapsed = clock.getElapsedTime();
             float seconds = elapsed.asSeconds();
-            float ss = prev + seconds;
-            prev = ss;
-            int ss_int = (int)ss;
+            float aa = prev + seconds;
+            prev = aa;
+            int ss_int = (int)aa;
             cout << ss_int << endl;
             if (ss_int % 2 == 0) {
                 simulator.switchClockTo1();
@@ -291,6 +305,8 @@ int main()
         window.draw(background);
         drawPalette(&window, palette.getTop());
         drawPalette(&window, simulator.getTop());
+
+        //window.setView(view);
 		
 
 		// calculate fps

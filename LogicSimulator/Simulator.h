@@ -368,11 +368,11 @@ Pin* Simulator::getPinOnClick(LogicElement* obj, float x, float y)
 			if (x > (obj->sprite.getPosition().x + 20)) // if on right half
 			{
 				if (y > obj->sprite.getPosition().y) {
-					cout << "Q1" << endl;
+					cout << "Q1_" << endl;
 					return &obj->pins[3];
 				}
 				else {
-					cout << "Q1_" << endl;
+					cout << "Q1" << endl;
 					return &obj->pins[2];
 				}
 				

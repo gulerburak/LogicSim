@@ -22,6 +22,7 @@ DffGate::DffGate(sf::RenderWindow* window, float x, float y)
 	pins[1].setType(INPUT);
 	pins[2].setType(OUTPUT);
 	pins[3].setType(OUTPUT);
+	
 
 	pins[0].dad = this;
 	pins[1].dad = this;
@@ -36,7 +37,27 @@ DffGate::DffGate(sf::RenderWindow* window, float x, float y)
 
 int DffGate::calculateState(LogicElement* x)
 {
-	return 0;
+	
+	int prev2 = x->pins[2].getState();
+	int prev3 = x->pins[3].getState();
+
+	if (x->pins[1].getState() == 1) {
+		if (x->pins[0].getState() == 0) {
+			x->pins[2].setState(0);
+			x->pins[3].setState(1);
+			return x->pins[2].getState();
+		}
+		else {
+			x->pins[2].setState(1);
+			x->pins[3].setState(0);
+			return x->pins[2].getState();
+		}
+	}
+	else {
+		x->pins[2].setState(prev2);
+		x->pins[3].setState(prev3);
+		return x->pins[2].getState();
+	}
 }
 
 DffGate::~DffGate()
