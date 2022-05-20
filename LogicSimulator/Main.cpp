@@ -18,7 +18,6 @@
 #include "Palette.h"
 #include "VDDGND.h"
 #include "LED.h"
-
 using namespace std;
 
 int main()
@@ -48,17 +47,17 @@ int main()
     // create the window
     sf::RenderWindow window(sf::VideoMode(1024, 1024), "Logic Simulator");
 	window.setFramerateLimit(144);
-    sf::Clock clock;
     Palette palette(&window);
     
-	
-	
+	sf::Clock clock;
+    float prev = 0;
 	// create simulator class and pass window
     Simulator simulator(&window);
     bool isSimulating = 0;
     // run the program as long as the window is open
     while (window.isOpen())
     {
+        
         // check all the window's events that were triggered since the last iteration of the loop
         sf::Event event;
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);		
@@ -260,15 +259,31 @@ int main()
             }
             
         }
-		
+        
         if (isSimulating)
         {
 			cout << "Simulatinggg" << endl;
 			simulator.Simulate();
-            float elapsed = clock.getElapsedTime().asSeconds();
+            sf::Time elapsed = clock.getElapsedTime();
+            float seconds = elapsed.asSeconds();
+            float ss = prev + seconds;
+            prev = ss;
+            int ss_int = (int)ss;
+            cout << ss_int << endl;
+            if (ss_int % 2 == 0) {
+                simulator.switchClockTo1();
+            }
+            else {
+                simulator.switchClockTo0();
+            }
+            
+            //const unsigned int seconds = static_cast<unsigned int>(time.asSeconds());
+            //float time2 = clock.getElapsedTime().asMilliseconds();
+            //cout <<  seconds << endl;
            
-            cout << elapsed << endl;
-			if (elapsed > 1) simulator.switchClock();
+            //cout << elapsed << endl;
+			//if (elapsed > 1) simulator.switchClock();
+            
         }
 		
         // draw palette and objects

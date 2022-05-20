@@ -26,7 +26,8 @@ public:
 	//void deleteWire();
 	void resetAllPins();
 	void resetAllLEDs();
-	void switchClock();
+	void switchClockTo1();
+	void switchClockTo0();
 	void Simulate();
 	Object* getTop();
 	Object* getSelectedObject();
@@ -79,13 +80,22 @@ void Simulator::resetAllLEDs()
 	}
 }
 
-void Simulator::switchClock()
+void Simulator::switchClockTo1()
 {	
 	cout << "Clock switched" << endl;
 	Object* temp = headObj;
 	while (temp != nullptr)
 	{
-		if (temp->getObjType() == CLOCK) temp->state = !temp->state;
+		if (temp->getObjType() == CLOCK) temp->state = 1;
+		temp = temp->next;
+	}
+}void Simulator::switchClockTo0()
+{
+	cout << "Clock switched" << endl;
+	Object* temp = headObj;
+	while (temp != nullptr)
+	{
+		if (temp->getObjType() == CLOCK) temp->state = 0;
 		temp = temp->next;
 	}
 }
@@ -344,6 +354,13 @@ Pin* Simulator::getPinOnClick(LogicElement* obj, float x, float y)
 			else if (x < (obj->sprite.getPosition().x - 20)) // if on left half
 			{
 				cout << "In" << endl;
+				return &obj->pins[0];
+			}
+			break;
+		case CLOCK:
+			if (x > (obj->sprite.getPosition().x + 20)) // if on right half
+			{
+				cout << "Out" << endl;
 				return &obj->pins[0];
 			}
 			break;
