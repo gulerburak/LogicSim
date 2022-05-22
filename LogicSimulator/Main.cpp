@@ -20,13 +20,18 @@
 #include "LED.h"
 using namespace std;
 
-//static const float view_height = 1024.0f;
+static const float view_height = 1024.0f;
 
-//void Resize_view(const sf::RenderWindow& window, sf::View& view) {
-//    
-//   float aspect_ratio = float(window.getSize().x) / float(window.getSize().y);
-//    view.setSize(view_height * aspect_ratio, view_height);
-//}
+void Resize_view(sf::RenderWindow& window, sf::View& view) {
+    
+   float aspect_ratio = float(window.getSize().x) / float(window.getSize().y);
+   view.setSize(view_height *aspect_ratio, view_height);
+   cout << aspect_ratio << endl;
+   Palette palette(&window,aspect_ratio);
+   //window.clear(sf::Color::Black);
+  // window.display();
+
+}
 
 int main()
 {    
@@ -52,11 +57,12 @@ int main()
     background.setFillColor(sf::Color::Magenta);
     background.setPosition(0, 0);
 
-   // sf::View view(sf::Vector2f(512.0f, 512.0f), sf::Vector2f(view_height, view_height));
+   sf::View view(sf::Vector2f(512.0f, 512.0f), sf::Vector2f(view_height, view_height));
     // create the window
     sf::RenderWindow window(sf::VideoMode(1024, 1024), "Logic Simulator");
 	window.setFramerateLimit(144);
-    Palette palette(&window);
+    float aspectratio = float(window.getSize().x) / float(window.getSize().y);
+    Palette palette(&window,aspectratio);
     
 	sf::Clock clock;
     float prev = 0;
@@ -76,11 +82,12 @@ int main()
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
-            //if (event.type == sf::Event::Resized) {
-            //    Resize_view(window, view);
-            //}
+            if (event.type == sf::Event::Resized) {
+                Resize_view(window, view);
+                
+            }
+            float aspectratio = float(window.getSize().x) / float(window.getSize().y);
             
-			
             // create a dummy pointer to use
             Object* dummyObject = nullptr;
             Wire* dummyWire = nullptr;
@@ -91,7 +98,7 @@ int main()
                 simulator.unselectAll();
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
                 {
-                    if (mousePos.y < 36) // if mouse on startstop area
+                    if (mousePos.y>1*aspectratio && mousePos.y < 36 * aspectratio) // if mouse on startstop area
                     {
                         dummyObject = palette.GetObjectOnClick(mousePos.x, mousePos.y);
 						if (dummyObject != nullptr)
@@ -116,7 +123,7 @@ int main()
 						
 						
                     }
-                    else if (mousePos.x < 150) // if mouse is on item palette
+                    else if (mousePos.x > 1 * aspectratio && mousePos.x < 150 * aspectratio) // if mouse is on item palette
                     {
                         // create new object by type
                         dummyObject = palette.GetObjectOnClick(mousePos.x, mousePos.y);
@@ -124,7 +131,7 @@ int main()
 						{
                             dummyObject = simulator.createObjectbyType(dummyObject->getObjType(),
                                                                        mousePos.x,
-                                                                       mousePos.y);
+                                                                       mousePos.y);  
                             simulator.addObject(dummyObject);
 							
 						}
@@ -185,7 +192,7 @@ int main()
 			
             if (event.type == sf::Event::MouseButtonReleased)
             {
-                if (mousePos.x > 150 && mousePos.y > 36) // if mouse is not in command palette
+                if (mousePos.x > 150 * aspectratio && mousePos.y > 36 * aspectratio) // if mouse is not in command palette
                 {
                     if (event.mouseButton.button == sf::Mouse::Left)
                     {
@@ -306,7 +313,7 @@ int main()
         drawPalette(&window, palette.getTop());
         drawPalette(&window, simulator.getTop());
 
-        //window.setView(view);
+        window.setView(view);
 		
 
 		// calculate fps

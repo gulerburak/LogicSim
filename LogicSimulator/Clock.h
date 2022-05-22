@@ -33,6 +33,7 @@ int Clock::calculateState(LogicElement* x)
 {
 	x->pins[0].setState(state);
 	return x->pins[0].getState();
+	
 }
 
 void Clock::drawObject(sf::RenderWindow*)

@@ -74,6 +74,34 @@ public:
 		led->next = startstop;
 		startstop->next = nullptr;
 	}
+	Palette(sf::RenderWindow* window,float x)
+	{
+
+		L1 = new Logic_1(window, 75 * x, 700 * x);
+		L0 = new Logic_0(window, 75 * x, 800 * x);
+		led = new LED(window, 75 * x ,900 * x);
+		led->state = true;
+		AND = new AndGate(window, 75 * x, 100 * x);
+		OR = new OrGate(window, 75 * x, 200 * x);
+		NOT = new NotGate(window, 75 * x, 300 * x);
+		XOR = new XorGate(window, 75 * x, 400 * x);
+		DFF = new DffGate(window, 75 * x, 500 * x);
+		CLOCK = new Clock(window, 75 * x, 600 * x);
+		startstop = new StartStopButton(window, 150 * x, 0);
+
+
+
+		AND->next = OR;
+		OR->next = NOT;
+		NOT->next = XOR;
+		XOR->next = DFF;
+		DFF->next = CLOCK;
+		CLOCK->next = L1;
+		L1->next = L0;
+		L0->next = led;
+		led->next = startstop;
+		startstop->next = nullptr;
+	}
 	Object* getTop()
 	{
 		return AND;
