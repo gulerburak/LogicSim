@@ -212,7 +212,19 @@ int main()
                                                             mousePos.x,
                                                             mousePos.y);
                                     dummyWire->connectPins();
-									
+
+                                    // add another useless wire at the end of the wire so there will be 90 degree angle
+                                    if (dummyWire->getWireLineByIndex(0).y != dummyWire->getWireLineByIndex(1).y)
+                                    {
+                                        dummyWire->setEndOfWire(dummyPin,
+                                                                mousePos.x,
+                                                                dummyWire->getWireLineByIndex(0).y);
+                                        Wire* wire = new Wire(mousePos.x, dummyWire->getWireLineByIndex(0).y, &window, nullptr);
+										wire->setEndOfWire(nullptr,
+														   mousePos.x,
+														   mousePos.y);
+                                        simulator.addObject(wire);
+                                    }
                                     dummyWire = nullptr;
                                 }
                                 else 
