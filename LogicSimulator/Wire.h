@@ -12,7 +12,7 @@ public:
 	~Wire();
 	void setStartofWire(Pin*, float, float);
 	void setEndOfWire(Pin*, float, float);
-	sf::Vector2f getWireLineByIndex(int);
+	sf::Vector2f getWireLine(int);
 	Pin* getPinPtr(int);
 	void drawObject(sf::RenderWindow* window);
 	void connectPins();
@@ -57,7 +57,7 @@ Pin* Wire::getPinPtr(int index)
 	return pins[index];
 }
 
-sf::Vector2f Wire::getWireLineByIndex(int index) 
+sf::Vector2f Wire::getWireLine(int index) 
 {
 	return line[index].position;
 }

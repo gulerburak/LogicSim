@@ -29,5 +29,5 @@ public:
 
 objType Object::getObjType()
 {
-	return objID;
+return objID;
 }
