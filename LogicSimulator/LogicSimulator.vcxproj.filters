@@ -26,9 +26,6 @@
     <ClInclude Include="Clock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DoublyLinkedList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LogicElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>

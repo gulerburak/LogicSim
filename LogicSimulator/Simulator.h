@@ -3,6 +3,7 @@
 #include "Pin.h"
 #include "VDDGND.h"
 #include "LED.h"
+#include "Wire.h"
 
 #include <SFML/Graphics.hpp>
 using namespace std;
@@ -23,10 +24,10 @@ public:
 	~Simulator();
 	void addObject(Object*);
 	void deleteObject();
-	//void deleteWire();
 	void resetAllPins();
 	void resetAllLEDs();
-	void switchClock();
+	void switchClockTo1();
+	void switchClockTo0();
 	void Simulate();
 	Object* getTop();
 	Object* getSelectedObject();
@@ -35,42 +36,15 @@ public:
 	void setSelectedWire(Wire*);
 	Object* GetObjectOnClick(float, float);
 	Pin* getPinOnClick(LogicElement*, float, float);
-	void createWire(Pin*, float, float);
 	void unselectAll();
-	void deletePicked();
 
 	int calculateOutput(Pin*);
-	
 	Object* createObjectbyType(objType type, float, float);
 };
-/*void Simulator::deleteWire() {
-	Object* temp = headObj;
-	while (temp != nullptr) {
-		if (temp->selected) {
-			if()
-		}
-	}
-}*/
-
-void Simulator::resetAllPins()
-{
-	Object* temp = headObj;
-	while (temp != nullptr)
-	{
-		if (temp->getObjType() != (WIREtype || Logic0 || Logic1))
-		{
-			LogicElement* t = static_cast<LogicElement*>(temp);
-			for (int i = 0; i < t->numPins; i++)
-				t->pins[i].setState(2);
-
-
-		}
-		temp = temp->next;
-	}
-}
 
 void Simulator::resetAllLEDs()
 {
+	// turn off all the LEDs
 	Object* temp = headObj;
 	while (temp != nullptr)
 	{
@@ -79,21 +53,28 @@ void Simulator::resetAllLEDs()
 	}
 }
 
-void Simulator::switchClock()
+void Simulator::switchClockTo1()
 {	
 	cout << "Clock switched" << endl;
 	Object* temp = headObj;
 	while (temp != nullptr)
 	{
-		if (temp->getObjType() == CLOCK) temp->state = !temp->state;
+		if (temp->getObjType() == CLOCK) temp->state = 1;
+		temp = temp->next;
+	}
+}void Simulator::switchClockTo0()
+{
+	cout << "Clock switched" << endl;
+	Object* temp = headObj;
+	while (temp != nullptr)
+	{
+		if (temp->getObjType() == CLOCK) temp->state = 0;
 		temp = temp->next;
 	}
 }
 
 void Simulator::Simulate()
 {
-	
-	resetAllPins();
 	Object* temp = headObj;
 	temp = headObj;
 	while (temp != nullptr)
@@ -103,58 +84,42 @@ void Simulator::Simulate()
 			//recursively calculate output of all connected wires
 			LogicElement* t = static_cast<LogicElement*>(temp);
 			t->state = calculateOutput(&(t->pins[0]));
-			cout <<"asdasd" << endl << t->state << endl;
-
+			cout <<"state of the LED: " << endl << t->state << endl;
 		}
 		temp = temp->next;
 	}
-
 }
+
 int Simulator::calculateOutput(Pin *pin)
+	// calculates input of the LED
 {
-	
 	Pin* connection = pin->connectedTo[0];
 	
-	if (connection == nullptr)
+	if (connection == nullptr) // no wire is connected
 		return 0;
 	
-	cout << "a1" << endl;
-	if (connection->getState() == 2)
+	// get parent object of pin
+	Object* temp = connection->parent;
+	// cast to LogicElement to access pins
+	LogicElement* object = static_cast<LogicElement*>(temp);
+	
+	for (int i = 0; i < object->numPins; i++)
+		// iterate over pins
 	{
-		cout << "a2" << endl;
-		Object* temp = connection->dad;
-		LogicElement* object = static_cast<LogicElement*>(temp);
-		cout << "a3" << endl;
-		cout << (connection->dad == nullptr) << endl;
-		cout << object << endl;
-		for (int i = 0; i < object->numPins; i++)
+		Pin* object_pin = &(object->pins[i]);
+		if (object_pin != nullptr)
 		{
-			cout << "a4" << endl;
-			Pin* object_pin = &(object->pins[i]);
-			if (object_pin != nullptr)
+			if (object_pin->getType() != OUTPUT)
+				// if pin is an input pin
 			{
-				cout << object_pin;
-				if (object_pin->getType() != OUTPUT)
-				{
-					cout << "a5" << endl;
-					int re = calculateOutput(object_pin);
-					object_pin->setState(re);
-				}
+				// calculate output of the pin recursively
+				object_pin->setState(calculateOutput(object_pin));
 			}
 		}
-		object->calculateState(object);
+	}
 		
-		return connection->getState();
-	}
-	else
-	{
-		cout << "not" << endl;
-		pin->setState(connection->getState());
-		cout << connection->getState() << endl;
-		return pin->getState();
-	}
-
-	
+	object->calculateState(object);
+	return connection->getState();
 }
 
 
@@ -269,11 +234,35 @@ Object* Simulator::GetObjectOnClick(float x, float y)
 	Object* temp = headObj;
 	while (temp != nullptr)
 	{
-		
+
 		if (temp->sprite.getGlobalBounds().contains(x, y))
 			return temp;
+
 		
+
+		if (temp->getObjType() == WIREtype) {
+			//calculate Right Angle Distance
+			sf::Vector2f point0 = static_cast<Wire*>(temp)->getWireLineByIndex(0);
+			sf::Vector2f point1 = static_cast<Wire*>(temp)->getWireLineByIndex(1);
+			float x21 = abs(point1.x - point0.x);
+			float y21 = abs(point1.y - point1.y);
+			
+			float A = sqrt(x21 * x21 + y21 * y21);
+			float B = sqrt((x - point0.x) * (x - point0.x) + (y - point0.y) * (y - point0.y));
+			float C = sqrt((x - point1.x) * (x - point1.x) + (y - point1.y) * (y - point1.y));
+
+			float K = sqrt((B * B) - ((((B * B) - (C * C) + (A * A)) / (2 * A)) * (((B * B) - (C * C) + (A * A)) / (2 * A)))); //closeness
+			
+			float area = A * K;
+
+			if (K < 20) {
+				
+				return temp;
+			}
+		}
 		temp = temp->next;
+
+
 	}
 	return nullptr;
 	
@@ -281,7 +270,7 @@ Object* Simulator::GetObjectOnClick(float x, float y)
 
 Pin* Simulator::getPinOnClick(LogicElement* obj, float x, float y)
 { 
-	// return pin by object type
+	// return pin by object type and based on the point where clicked
 	switch (obj->getObjType())
 	{
 		case AND:
@@ -321,7 +310,7 @@ Pin* Simulator::getPinOnClick(LogicElement* obj, float x, float y)
 			}
 			break;
 		case LEDtype:
-			if (y > obj->sprite.getPosition().y)
+			if (y > obj->sprite.getPosition().y) // bottom half
 			{
 				if ( x > obj->sprite.getPosition().x)
 				{
@@ -347,15 +336,22 @@ Pin* Simulator::getPinOnClick(LogicElement* obj, float x, float y)
 				return &obj->pins[0];
 			}
 			break;
+		case CLOCK:
+			if (x > (obj->sprite.getPosition().x + 20)) // if on right half
+			{
+				cout << "Out" << endl;
+				return &obj->pins[0];
+			}
+			break;
 		case DFF:
 			if (x > (obj->sprite.getPosition().x + 20)) // if on right half
 			{
 				if (y > obj->sprite.getPosition().y) {
-					cout << "Q1" << endl;
+					cout << "Q1_" << endl;
 					return &obj->pins[3];
 				}
 				else {
-					cout << "Q1_" << endl;
+					cout << "Q1" << endl;
 					return &obj->pins[2];
 				}
 				
@@ -371,41 +367,14 @@ Pin* Simulator::getPinOnClick(LogicElement* obj, float x, float y)
 					cout << "D" << endl;
 					return &obj->pins[0];
 				}
-			}
-
-		
-			
-		
-	}
-	//if (x > (obj->sprite.getPosition().x + 20)) // if on right half
-	//{
-	//	cout << "Right" << endl;
-	//	return &obj->pins[2];
-	//}
-	//else if (x < (obj->sprite.getPosition().x - 20)) // if on left half
-	//{
-	//	if (y > obj->sprite.getPosition().y) // if on bottom half
-	//	{
-	//		cout << "Bottom" << endl;
-	//		return &obj->pins[1];
-	//	}
-	//	else {
-	//		cout << "Top" << endl;
-	//		return &obj->pins[0];
-	//	}
-	//}
+			}						
+	}	
 	return nullptr;
 }
 
-void Simulator::createWire(Pin*, float, float) 
-{
-	
-	
-}
-
 void Simulator::unselectAll()
+	// unselect all objects on the list
 {
-
 	Object* temp = headObj;
 	while (temp != nullptr)
 	{
@@ -415,34 +384,7 @@ void Simulator::unselectAll()
 	selectedObject = nullptr;
 	selectedWire = nullptr;
 }
-void Simulator::deletePicked()
-{
-	/*if (selected == nullptr) return;
-	
-	selected->
-	Object* temp = headObj;
-	while (temp->next != nullptr)
-	{		
-		if (temp->next->selected = true)
-		{
-			
-			if (temp->next->next == nullptr)
-			{
-				cout << "Deleting1" << endl;
-				temp->next = nullptr;
-				break;
-			}
-			else
-			{
-				cout << "Deleting" << endl;
-				temp->next = temp->next->next;
-				break;
-			}
-		}
-			
-		temp = temp->next;
-	}*/
-}
+
 
 Object* Simulator::createObjectbyType(objType type, float x, float y)
 {
@@ -476,8 +418,8 @@ Object* Simulator::createObjectbyType(objType type, float x, float y)
 	case LEDtype:
 		return new LED(window, x, y);
 		break;
-	/*default:
+	default:
 		return nullptr;
-		break;*/
+		break;
 	}
 }

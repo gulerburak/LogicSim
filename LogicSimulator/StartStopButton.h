@@ -11,6 +11,7 @@ class StartStopButton : public Object
 
 StartStopButton::StartStopButton(sf::RenderWindow* window, float x, float y)
 {
+	// assign special values of element
 	objID = BUTTON;
 	this->window = window;
 	textures[0].loadFromFile("../assets/STOP.png");
@@ -22,7 +23,7 @@ StartStopButton::StartStopButton(sf::RenderWindow* window, float x, float y)
 
 void StartStopButton::drawObject(sf::RenderWindow* window)
 {
-
+	// change texture by state
 	sprite.setTexture(textures[state]);
 	window->draw(sprite);
 }
