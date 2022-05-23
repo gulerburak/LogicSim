@@ -38,6 +38,8 @@ public:
 	Pin* getPinOnClick(LogicElement*, float, float);
 	void unselectAll();
 
+	void onWireDeleteHandleConnectedTo(Object*);
+
 	int calculateOutput(Pin*);
 	Object* createObjectbyType(objType type, float, float);
 };
@@ -169,6 +171,30 @@ void Simulator::deleteObject()
 	}
 	else if (headObj->selected) // delete head
 	{
+		/*Object* temp = headObj;
+		while (temp->next != nullptr) 
+		{
+
+			if (temp->getObjType() == WIREtype) 
+			{
+
+				LogicElement* t = static_cast<LogicElement*>(headObj);
+				LogicElement* w = static_cast<LogicElement*>(temp);
+				for (int i = 0; i < t->numPins; i++) 
+				{
+					if (t->pins[i].getPos() = w->pins[0].getPos()
+					{
+						cout << "Deleting head" << endl;
+							delete temp;
+							headObj = headObj->next;
+							delete selectedObject;
+							selectedObject = nullptr;
+					}
+				}
+
+			}
+			temp = temp->next;
+		}*/
 		cout << "Deleting head" << endl;
 		headObj = headObj->next;
 		delete selectedObject;
@@ -231,6 +257,7 @@ void Simulator::setSelectedObject(Object* newSelected)
 }
 Object* Simulator::GetObjectOnClick(float x, float y)
 {
+	
 	Object* temp = headObj;
 	while (temp != nullptr)
 	{
@@ -238,26 +265,31 @@ Object* Simulator::GetObjectOnClick(float x, float y)
 		if (temp->sprite.getGlobalBounds().contains(x, y))
 			return temp;
 
-		
+
 
 		if (temp->getObjType() == WIREtype) {
-			//calculate Right Angle Distance
-			sf::Vector2f point0 = static_cast<Wire*>(temp)->getWireLineByIndex(0);
-			sf::Vector2f point1 = static_cast<Wire*>(temp)->getWireLineByIndex(1);
-			float x21 = abs(point1.x - point0.x);
-			float y21 = abs(point1.y - point1.y);
-			
-			float A = sqrt(x21 * x21 + y21 * y21);
-			float B = sqrt((x - point0.x) * (x - point0.x) + (y - point0.y) * (y - point0.y));
-			float C = sqrt((x - point1.x) * (x - point1.x) + (y - point1.y) * (y - point1.y));
+			//calculate Distance
+			sf::Vector2f p0 = static_cast<Wire*>(temp)->getWireLine(0);//start point
+			sf::Vector2f p1 = static_cast<Wire*>(temp)->getWireLine(1);//end point
 
-			float K = sqrt((B * B) - ((((B * B) - (C * C) + (A * A)) / (2 * A)) * (((B * B) - (C * C) + (A * A)) / (2 * A)))); //closeness
+			//line length
+			float A = sqrt(((p1.x - p0.x) * (p1.x - p0.x)) + ((p1.y - p0.y) * (p1.y - p0.y)));
 			
-			float area = A * K;
+			//distance from curser to start of the line
+			float B = sqrt(((x - p1.x) * (x - p1.x)) + ((y - p1.y) * (y - p1.y)));
 
-			if (K < 20) {
-				
+			//distance from curser to end of the line
+			float C = sqrt(((p0.x - x) * (p0.x - x)) + ((p0.y - y) * (p0.y - y)));
+
+			//perpendicular distance from mouse curser to line 
+			float K = sqrt((B * B) - ((((B * B) - (C * C) + (A * A)) / (2 * A)) * (((B * B) - (C * C) + (A * A)) / (2 * A))));
+
+			if (K < 10) {
+
+				cout << "distance= " << K << endl;
+
 				return temp;
+
 			}
 		}
 		temp = temp->next;

@@ -284,9 +284,14 @@ int main()
                                 
                             dummyWire = simulator.getSelectedWire();
                             cout << "Deleting wire" << endl;
+                            
                             simulator.deleteObject();
+                           
+                            
                         }
+                        
                         dummyObject = simulator.GetObjectOnClick(mousePos.x, mousePos.y);
+                        
                         simulator.deleteObject();
                     }
                 }
