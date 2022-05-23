@@ -98,7 +98,7 @@ int main()
                 simulator.unselectAll();
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
                 {
-                    if (mousePos.y>1*aspectratio && mousePos.y < 36 * aspectratio) // if mouse on startstop area
+                    if (mousePos.y > 1 * aspectratio && mousePos.y < 36 * aspectratio) // if mouse on startstop area
                     {
                         dummyObject = palette.GetObjectOnClick(mousePos.x, mousePos.y);
 						if (dummyObject != nullptr)
@@ -269,8 +269,21 @@ int main()
             {
                 if (event.key.code == sf::Keyboard::Delete)
                 {
-                    cout << "Deleting2" << endl;
-                    simulator.deleteObject();
+                    if (simulator.GetObjectOnClick(mousePos.x, mousePos.y) != nullptr) {
+
+                        
+                        if (!(simulator.getSelectedWire() == nullptr)) {
+                                
+                            dummyWire = simulator.getSelectedWire();
+                            cout << "Deleting wire" << endl;
+                            simulator.deleteObject();
+                        }
+                        dummyObject = simulator.GetObjectOnClick(mousePos.x, mousePos.y);
+                        simulator.deleteObject();
+                        
+                    }
+                    
+                    
                 }
                 /*if (event.key.code == sf::Keyboard::Enter)
                 {

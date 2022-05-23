@@ -15,7 +15,7 @@ StartStopButton::StartStopButton(sf::RenderWindow* window, float x, float y)
 	this->window = window;
 	textures[0].loadFromFile("../assets/STOP.png");
 	textures[1].loadFromFile("../assets/START.png");
-	sprite.setTexture(textures[0]);
+	
 	sprite.setTexture(textures[1]);
 	sprite.setPosition(x, y);
 	state = 1;

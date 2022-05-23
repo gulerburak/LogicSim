@@ -10,6 +10,7 @@
 #include "LED.h"
 #include "StartStopButton.h"
 #include <SFML/Graphics.hpp>
+#include "Pin.h"
 using namespace std;
 
 void drawPalette(sf::RenderWindow* window, Object* obj)
@@ -19,6 +20,7 @@ void drawPalette(sf::RenderWindow* window, Object* obj)
 		//if object is selected, draw a red border around it
 		if (obj->selected)
 		{
+			
 			sf::RectangleShape rect(sf::Vector2f(99.0f,61.0f));
 			rect.setFillColor(sf::Color::Transparent);
 			rect.setOutlineColor(sf::Color::Red);
@@ -27,6 +29,7 @@ void drawPalette(sf::RenderWindow* window, Object* obj)
 							 obj->sprite.getPosition().y);
 			rect.setOrigin(50.0f, 30.0f);
 			window->draw(rect);	
+			
 		}
 		obj->drawObject(window);
 		obj = obj->next;

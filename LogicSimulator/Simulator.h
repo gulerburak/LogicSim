@@ -3,6 +3,7 @@
 #include "Pin.h"
 #include "VDDGND.h"
 #include "LED.h"
+#include "Wire.h"
 
 #include <SFML/Graphics.hpp>
 using namespace std;
@@ -23,7 +24,6 @@ public:
 	~Simulator();
 	void addObject(Object*);
 	void deleteObject();
-	//void deleteWire();
 	void resetAllPins();
 	void resetAllLEDs();
 	void switchClockTo1();
@@ -35,23 +35,15 @@ public:
 	Wire* getSelectedWire();
 	void setSelectedWire(Wire*);
 	Object* GetObjectOnClick(float, float);
+
 	Pin* getPinOnClick(LogicElement*, float, float);
-	void createWire(Pin*, float, float);
 	void unselectAll();
-	void deletePicked();
 
 	int calculateOutput(Pin*);
 	
 	Object* createObjectbyType(objType type, float, float);
 };
-/*void Simulator::deleteWire() {
-	Object* temp = headObj;
-	while (temp != nullptr) {
-		if (temp->selected) {
-			if()
-		}
-	}
-}*/
+
 
 void Simulator::resetAllPins()
 {
@@ -152,8 +144,8 @@ int Simulator::calculateOutput(Pin *pin)
 				}
 			}
 		}
-		object->calculateState(object);
 		
+		object->calculateState(object);
 		return connection->getState();
 	}
 	else
@@ -279,11 +271,35 @@ Object* Simulator::GetObjectOnClick(float x, float y)
 	Object* temp = headObj;
 	while (temp != nullptr)
 	{
-		
+
 		if (temp->sprite.getGlobalBounds().contains(x, y))
 			return temp;
+
 		
+
+		if (temp->getObjType() == WIREtype) {
+			//calculate Right Angle Distance
+			sf::Vector2f point0 = static_cast<Wire*>(temp)->getWireLineByIndex(0);
+			sf::Vector2f point1 = static_cast<Wire*>(temp)->getWireLineByIndex(1);
+			float x21 = abs(point1.x - point0.x);
+			float y21 = abs(point1.y - point1.y);
+			
+			float A = sqrt(x21 * x21 + y21 * y21);
+			float B = sqrt((x - point0.x) * (x - point0.x) + (y - point0.y) * (y - point0.y));
+			float C = sqrt((x - point1.x) * (x - point1.x) + (y - point1.y) * (y - point1.y));
+
+			float K = sqrt((B * B) - ((((B * B) - (C * C) + (A * A)) / (2 * A)) * (((B * B) - (C * C) + (A * A)) / (2 * A)))); //closeness
+			
+			float area = A * K;
+
+			if (K < 20) {
+				
+				return temp;
+			}
+		}
 		temp = temp->next;
+
+
 	}
 	return nullptr;
 	
@@ -388,36 +404,9 @@ Pin* Simulator::getPinOnClick(LogicElement* obj, float x, float y)
 					cout << "D" << endl;
 					return &obj->pins[0];
 				}
-			}
-
-		
-			
-		
-	}
-	//if (x > (obj->sprite.getPosition().x + 20)) // if on right half
-	//{
-	//	cout << "Right" << endl;
-	//	return &obj->pins[2];
-	//}
-	//else if (x < (obj->sprite.getPosition().x - 20)) // if on left half
-	//{
-	//	if (y > obj->sprite.getPosition().y) // if on bottom half
-	//	{
-	//		cout << "Bottom" << endl;
-	//		return &obj->pins[1];
-	//	}
-	//	else {
-	//		cout << "Top" << endl;
-	//		return &obj->pins[0];
-	//	}
-	//}
+			}						
+	}	
 	return nullptr;
-}
-
-void Simulator::createWire(Pin*, float, float) 
-{
-	
-	
 }
 
 void Simulator::unselectAll()
@@ -432,34 +421,7 @@ void Simulator::unselectAll()
 	selectedObject = nullptr;
 	selectedWire = nullptr;
 }
-void Simulator::deletePicked()
-{
-	/*if (selected == nullptr) return;
-	
-	selected->
-	Object* temp = headObj;
-	while (temp->next != nullptr)
-	{		
-		if (temp->next->selected = true)
-		{
-			
-			if (temp->next->next == nullptr)
-			{
-				cout << "Deleting1" << endl;
-				temp->next = nullptr;
-				break;
-			}
-			else
-			{
-				cout << "Deleting" << endl;
-				temp->next = temp->next->next;
-				break;
-			}
-		}
-			
-		temp = temp->next;
-	}*/
-}
+
 
 Object* Simulator::createObjectbyType(objType type, float x, float y)
 {

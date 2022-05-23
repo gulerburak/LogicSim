@@ -9,6 +9,7 @@ public:
 	int numPins; //Number of pins of the logic element
 	
 	virtual int calculateState(LogicElement*)=0;
+	
 };
 
 

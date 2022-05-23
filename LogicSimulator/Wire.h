@@ -13,7 +13,7 @@ public:
 	
 	void setStartofWire(Pin*, float, float);
 	void setEndOfWire(Pin*, float, float);
-
+	sf::Vector2f getWireLineByIndex(int);
 	Pin* getPinPtr(int);
 	void drawObject(sf::RenderWindow* window);
 	void conncetPins();
@@ -60,11 +60,21 @@ Pin* Wire::getPinPtr(int index)
 {
 	return pins[index];
 }
+sf::Vector2f Wire::getWireLineByIndex(int index) {
+	return line[index].position;
+}
 
 void Wire::drawObject(sf::RenderWindow* window)
 {
 	// draw line of wire
-	line[0].color = sf::Color(220, 20, 60);
-	line[1].color = sf::Color(220, 20, 60);
+	if (selected) {
+		line[0].color = sf::Color(220, 20, 20,220);
+		line[1].color = sf::Color(220, 20, 20,220);
+	}
+	else {
+		line[0].color = sf::Color(20, 20, 220);
+		line[1].color = sf::Color(20, 20, 220);
+	}
+	
 	window->draw(line, 2, sf::Lines);
 }

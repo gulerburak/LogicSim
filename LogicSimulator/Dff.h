@@ -37,28 +37,47 @@ DffGate::DffGate(sf::RenderWindow* window, float x, float y)
 
 int DffGate::calculateState(LogicElement* x)
 {
-	return 0;
-	/*int prev2 = x->pins[2].getState();
-	int prev3 = x->pins[3].getState();
-
+	
+	int prev2 = x->pins[2].getState();
+	int prev3 = x->pins[3].getState();//previous Q values
+	prev2 = 0;
+	prev3 = 1;//initial condition
 	if (x->pins[1].getState() == 1) {
 		if (x->pins[0].getState() == 0) {
 			x->pins[2].setState(0);
 			x->pins[3].setState(1);
-			return x->pins[2].getState();
+			
+			if (&(x->pins[2])) {
+				return x->pins[2].getState();
+			}
+			else if (&(x->pins[3])) {
+				return x->pins[3].getState();
+			}
+			
 		}
-		else {
+		else if(x->pins[0].getState() == 1) {
 			x->pins[2].setState(1);
 			x->pins[3].setState(0);
-			return x->pins[2].getState();
+			if (&(x->pins[2])) {
+				return x->pins[2].getState();
+			}
+			else if (&(x->pins[3])) {
+				return x->pins[3].getState();
+			}
 		}
 	}
-	else {
+	else if(x->pins[1].getState() == 0) {
 		x->pins[2].setState(prev2);
 		x->pins[3].setState(prev3);
-		return x->pins[2].getState();
-	}*/
+		if (&(x->pins[2])) {
+			return x->pins[2].getState();
+		}
+		else if (&(x->pins[3])) {
+			return x->pins[3].getState();
+		}
+	}
 }
+
 
 DffGate::~DffGate()
 {
