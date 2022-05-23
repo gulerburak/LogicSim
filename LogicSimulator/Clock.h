@@ -5,7 +5,6 @@
 
 class Clock : public LogicElement
 {
-	//sf::Clock clock;
 public:
 	Clock(sf::RenderWindow* window, float, float);
 	int calculateState(LogicElement*);
@@ -15,14 +14,15 @@ public:
 
 Clock::Clock(sf::RenderWindow* window, float x, float y)
 {
-
+	// assign special values of element
 	objID = CLOCK;
 	this->window = window;
+	// assign pin values
 	numPins = 1;
 	pins[0].setType(OUTPUT);
 	pins[0].setState(1);
 	state = 0;
-	pins[0].dad = this;
+	pins[0].parent = this;
 	textures[0].loadFromFile("../assets/CLOCK.png");
 	sprite.setTexture(textures[0]);
 	sprite.setOrigin(30.0f, 30.0f);
@@ -31,6 +31,7 @@ Clock::Clock(sf::RenderWindow* window, float x, float y)
 
 int Clock::calculateState(LogicElement* x)
 {
+	// return assigen state of clock as state
 	x->pins[0].setState(state);
 	return x->pins[0].getState();
 	
@@ -40,6 +41,7 @@ void Clock::drawObject(sf::RenderWindow*)
 {
 	window->draw(sprite);
 }
+
 Clock::~Clock() {
 
 }

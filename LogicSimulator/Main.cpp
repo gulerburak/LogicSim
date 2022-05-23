@@ -22,27 +22,18 @@ using namespace std;
 
 static const float view_height = 1024.0f;
 
-void Resize_view(sf::RenderWindow& window, sf::View& view) {
+void Resize_view(sf::RenderWindow& window, sf::View& view) // resize window
+{
     
    float aspect_ratio = float(window.getSize().x) / float(window.getSize().y);
    view.setSize(view_height *aspect_ratio, view_height);
    cout << aspect_ratio << endl;
-   Palette palette(&window,aspect_ratio);
-   //window.clear(sf::Color::Black);
-  // window.display();
-
+   //Palette palette(&window,aspect_ratio);
 }
 
 int main()
-{    
-    /*sf::Sprite sprite;
-    sf::Sprite sprite2;
-    sprite.setTexture(texture);
-    sprite.setPosition(200, 200);
-    sprite2.setTexture(texture);
-    sprite.setOrigin(49.0f, 30.0f);
-    sprite2.setOrigin(49.0f, 30.0f);*/
-	
+{   
+	// create font for text
     sf::Font font;
     font.loadFromFile("../assets/font.ttf");
     sf::Text FPS;
@@ -58,13 +49,14 @@ int main()
     background.setPosition(0, 0);
 
    sf::View view(sf::Vector2f(512.0f, 512.0f), sf::Vector2f(view_height, view_height));
+
     // create the window
     sf::RenderWindow window(sf::VideoMode(1024, 1024), "Logic Simulator");
 	window.setFramerateLimit(144);
     float aspectratio = float(window.getSize().x) / float(window.getSize().y);
-    Palette palette(&window,aspectratio);
+    Palette palette(&window);
     
-	sf::Clock clock;
+	sf::Clock clock; // create clock  for timer
     float prev = 0;
 	// create simulator class and pass window
     Simulator simulator(&window);
@@ -79,12 +71,15 @@ int main()
 
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed) {
+            if (event.type == sf::Event::Closed) 
+            {
+                // if close button is clicked
                 window.close();
             }
-            if (event.type == sf::Event::Resized) {
+            if (event.type == sf::Event::Resized) 
+            {
+				// if window is resized
                 Resize_view(window, view);
-                
             }
             float aspectratio = float(window.getSize().x) / float(window.getSize().y);
             
@@ -95,17 +90,23 @@ int main()
 			
             if (event.type == sf::Event::MouseButtonPressed)
             {
+				// unselect all objects
                 simulator.unselectAll();
+				
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                    // if left mouse button is pressed
                 {
-                    if (mousePos.y > 1 * aspectratio && mousePos.y < 36 * aspectratio) // if mouse on startstop area
+                    if (mousePos.y > 1 * aspectratio && mousePos.y < 36 * aspectratio) 
+                        // if mouse on startstop area
                     {
                         dummyObject = palette.GetObjectOnClick(mousePos.x, mousePos.y);
-						if (dummyObject != nullptr)
+						if (dummyObject != nullptr) 
 						{
 							if (dummyObject->getObjType() == BUTTON)
+                                // start-stop button is clicked
 							{
                                 cout << "Button clicked" << endl;
+                                // change the state of simulator
 								if (isSimulating)
 								{
 									isSimulating = false;
@@ -118,14 +119,12 @@ int main()
                                     dummyObject->state = 0;
 								}
 							}
-						}
-                        !isSimulating;
-						
-						
+						}						
                     }
-                    else if (mousePos.x > 1 * aspectratio && mousePos.x < 150 * aspectratio) // if mouse is on item palette
+                    else if (mousePos.x > 1 * aspectratio && mousePos.x < 150 * aspectratio) 
+                        // if mouse is on item palette
                     {
-                        // create new object by type
+                        // if any object is clicked create new object by type
                         dummyObject = palette.GetObjectOnClick(mousePos.x, mousePos.y);
 						if(dummyObject != nullptr)
 						{
@@ -135,35 +134,29 @@ int main()
                             simulator.addObject(dummyObject);
 							
 						}
-						//AndGate* andGate = new AndGate(&window , mousePos.x, mousePos.y);
-						//
-      //                  dummyObject = andGate;
-						//
-						//// add object to simulator
-						//simulator.addObject(andGate);
                     }
-                    // look if clicked on existing object
                     else if (simulator.GetObjectOnClick(mousePos.x, mousePos.y) != nullptr)
+                        // look if clicked on existing object
                     {
+                        cout << "mouse " << mousePos.x << " " << mousePos.y << endl;
+						// assign if it is a created object
 					    dummyObject = simulator.GetObjectOnClick(mousePos.x, mousePos.y);
-						cout << "mouse " << mousePos.x << " " << mousePos.y << endl;
                         simulator.setSelectedObject(dummyObject);
-						// if clicked on pin of object, add wire to simulator
-						Pin* dummyPin = simulator.getPinOnClick(static_cast<LogicElement*>(dummyObject), mousePos.x, mousePos.y);
-                        
+						
+						// check if clicked on the pin of the object
+						Pin* dummyPin = simulator.getPinOnClick(static_cast<LogicElement*>(dummyObject),
+                                                                mousePos.x, mousePos.y);
                         if (dummyPin != nullptr)
                         {
-							
+							// create new wire which starts from here
 							Wire* wire = new Wire(mousePos.x, mousePos.y, &window, dummyPin);
-			                
                             if (dummyPin->addWire(wire))
                                 simulator.addObject(wire);
-                                
 						}
-                        else
+                        else // select clicked object
                             simulator.GetObjectOnClick(mousePos.x, mousePos.y)->selected = true;
                     }
-                    else
+                    else // if clicked empty place, unselect all objects
                     {
                         simulator.unselectAll();
                     }
@@ -176,14 +169,16 @@ int main()
             {
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
                 {
-					if (!(simulator.getSelectedWire() == nullptr))
+					if (!(simulator.getSelectedWire() == nullptr)) // move wire
 					{
+						// move but do not save ending pin
                         dummyWire = simulator.getSelectedWire();
 						dummyWire->setEndOfWire(nullptr, mousePos.x, mousePos.y);
 						
 					}
-                    else if (!(simulator.getSelectedObject() == nullptr))
+                    else if (!(simulator.getSelectedObject() == nullptr)) // move recently created object
                     {
+                        // last moved location is saved
                         dummyObject = simulator.getSelectedObject();
                         dummyObject->sprite.setPosition(mousePos.x, mousePos.y);
                     }
@@ -197,10 +192,12 @@ int main()
                     if (event.mouseButton.button == sf::Mouse::Left)
                     {
                         if (!(simulator.getSelectedWire() == nullptr))
+                            // if wire is drawing
                         {
 							dummyWire = simulator.getSelectedWire();
                             if (simulator.GetObjectOnClick(mousePos.x, mousePos.y) != nullptr)
                             {
+								// get the object's pin lying on this position
                                 dummyObject = simulator.GetObjectOnClick(mousePos.x, mousePos.y);
                                 dummyPin = simulator.getPinOnClick(static_cast<LogicElement*>(dummyObject),
                                                                    mousePos.x,
@@ -208,44 +205,44 @@ int main()
                                 
 								
                                 if (dummyPin->addWire(dummyWire))
+                                    // if max wire limit is not exceeded
                                 {
+                                    // assing ending pin of the wire
                                     dummyWire->setEndOfWire(dummyPin,
                                                             mousePos.x,
                                                             mousePos.y);
-                                    dummyWire->conncetPins();
+                                    dummyWire->connectPins();
 									
-                                    simulator.setSelectedObject(nullptr);
                                     dummyWire = nullptr;
                                 }
-                                else
+                                else 
                                 {
-                                    simulator.getSelectedWire()->getPinPtr(0)->numbwire--;
-										
-	
+									// delete wire
+                                    simulator.getSelectedWire()->getPinPtr(0)->numConnections--;
                                     simulator.getSelectedWire()->selected = 1;
                                     simulator.deleteObject();
-                                    simulator.setSelectedObject(nullptr);
                                 }
                             }
-							else
+							else // no object in released area
 							{
-                                simulator.getSelectedWire()->getPinPtr(0)->numbwire--;
+                                simulator.getSelectedWire()->getPinPtr(0)->numConnections--;
                                 simulator.getSelectedWire()->selected = 1;
                                 simulator.deleteObject();
-                                simulator.setSelectedObject(nullptr);
                                 
                             }
 						
                         }
                         else if (!(simulator.getSelectedObject() == nullptr))
                         {
+							// select object
                             dummyObject = simulator.getSelectedObject();
-                            simulator.setSelectedObject(nullptr);
 
                         }
+                        simulator.setSelectedObject(nullptr);
+                        simulator.setSelectedWire(nullptr);
                     }
                 }
-                else
+                else // if mouse released on tool palette area, delete created objects
                 {
                     if (event.mouseButton.button == sf::Mouse::Left)
                     {
@@ -269,9 +266,8 @@ int main()
             {
                 if (event.key.code == sf::Keyboard::Delete)
                 {
-                    if (simulator.GetObjectOnClick(mousePos.x, mousePos.y) != nullptr) {
-
-                        
+                    if (simulator.GetObjectOnClick(mousePos.x, mousePos.y) != nullptr) 
+                    {
                         if (!(simulator.getSelectedWire() == nullptr)) {
                                 
                             dummyWire = simulator.getSelectedWire();
@@ -280,24 +276,16 @@ int main()
                         }
                         dummyObject = simulator.GetObjectOnClick(mousePos.x, mousePos.y);
                         simulator.deleteObject();
-                        
                     }
-                    
-                    
                 }
-                /*if (event.key.code == sf::Keyboard::Enter)
-                {
-                    cout << "Simlating" << endl;
-                    simulator.Simulate();
-                }*/
             }
-            
         }
         
-        if (isSimulating)
+		
+        if (isSimulating) // start button is triggered
         {
-			cout << "Simulatinggg" << endl;
-			simulator.Simulate();
+			cout << "Simulating" << endl;
+			simulator.Simulate(); // run simulation
             sf::Time elapsed = clock.getElapsedTime();
             float seconds = elapsed.asSeconds();
             float aa = prev + seconds;
@@ -310,21 +298,13 @@ int main()
             else {
                 simulator.switchClockTo0();
             }
-            
-            //const unsigned int seconds = static_cast<unsigned int>(time.asSeconds());
-            //float time2 = clock.getElapsedTime().asMilliseconds();
-            //cout <<  seconds << endl;
-           
-            //cout << elapsed << endl;
-			//if (elapsed > 1) simulator.switchClock();
-            
         }
 		
         // draw palette and objects
         window.clear(sf::Color::Color(211, 211, 211, 255));
         window.draw(background);
-        drawPalette(&window, palette.getTop());
-        drawPalette(&window, simulator.getTop());
+        drawLinkedObjects(&window, palette.getTop());
+        drawLinkedObjects(&window, simulator.getTop());
 
         window.setView(view);
 		

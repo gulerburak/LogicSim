@@ -13,21 +13,20 @@ public:
 
 DffGate::DffGate(sf::RenderWindow* window, float x, float y)
 {
-
-
+	// assign pin values
 	objID = DFF;
 	this->window = window;
+	// assign pin values
 	numPins = 4;
 	pins[0].setType(INPUT);
 	pins[1].setType(INPUT);
 	pins[2].setType(OUTPUT);
 	pins[3].setType(OUTPUT);
-	//pins[3].setState(!pins[2].getState());
 
-	pins[0].dad = this;
-	pins[1].dad = this;
-	pins[2].dad = this;
-	pins[3].dad = this;
+	pins[0].parent = this;
+	pins[1].parent = this;
+	pins[2].parent = this;
+	pins[3].parent = this;
 
 	textures[0].loadFromFile("../assets/dff_edited.png");
 	sprite.setTexture(textures[0]);
@@ -81,7 +80,7 @@ int DffGate::calculateState(LogicElement* x)
 
 DffGate::~DffGate()
 {
-
+	delete next;
 }
 
 

@@ -35,35 +35,16 @@ public:
 	Wire* getSelectedWire();
 	void setSelectedWire(Wire*);
 	Object* GetObjectOnClick(float, float);
-
 	Pin* getPinOnClick(LogicElement*, float, float);
 	void unselectAll();
 
 	int calculateOutput(Pin*);
-	
 	Object* createObjectbyType(objType type, float, float);
 };
 
-
-void Simulator::resetAllPins()
-{
-	Object* temp = headObj;
-	while (temp != nullptr)
-	{
-		if (temp->getObjType() != (WIREtype || Logic0 || Logic1))
-		{
-			LogicElement* t = static_cast<LogicElement*>(temp);
-			for (int i = 0; i < t->numPins; i++)
-				t->pins[i].setState(2);
-
-
-		}
-		temp = temp->next;
-	}
-}
-
 void Simulator::resetAllLEDs()
 {
+	// turn off all the LEDs
 	Object* temp = headObj;
 	while (temp != nullptr)
 	{
@@ -94,8 +75,6 @@ void Simulator::switchClockTo1()
 
 void Simulator::Simulate()
 {
-	
-	resetAllPins();
 	Object* temp = headObj;
 	temp = headObj;
 	while (temp != nullptr)
@@ -105,58 +84,42 @@ void Simulator::Simulate()
 			//recursively calculate output of all connected wires
 			LogicElement* t = static_cast<LogicElement*>(temp);
 			t->state = calculateOutput(&(t->pins[0]));
-			cout <<"asdasd" << endl << t->state << endl;
-
+			cout <<"state of the LED: " << endl << t->state << endl;
 		}
 		temp = temp->next;
 	}
-
 }
+
 int Simulator::calculateOutput(Pin *pin)
+	// calculates input of the LED
 {
-	
 	Pin* connection = pin->connectedTo[0];
 	
-	if (connection == nullptr)
+	if (connection == nullptr) // no wire is connected
 		return 0;
 	
-	cout << "a1" << endl;
-	if (connection->getState() == 2)
+	// get parent object of pin
+	Object* temp = connection->parent;
+	// cast to LogicElement to access pins
+	LogicElement* object = static_cast<LogicElement*>(temp);
+	
+	for (int i = 0; i < object->numPins; i++)
+		// iterate over pins
 	{
-		cout << "a2" << endl;
-		Object* temp = connection->dad;
-		LogicElement* object = static_cast<LogicElement*>(temp);
-		cout << "a3" << endl;
-		cout << (connection->dad == nullptr) << endl;
-		cout << object << endl;
-		for (int i = 0; i < object->numPins; i++)
+		Pin* object_pin = &(object->pins[i]);
+		if (object_pin != nullptr)
 		{
-			cout << "a4" << endl;
-			Pin* object_pin = &(object->pins[i]);
-			if (object_pin != nullptr)
+			if (object_pin->getType() != OUTPUT)
+				// if pin is an input pin
 			{
-				cout << object_pin;
-				if (object_pin->getType() != OUTPUT)
-				{
-					cout << "a5" << endl;
-					int re = calculateOutput(object_pin);
-					object_pin->setState(re);
-				}
+				// calculate output of the pin recursively
+				object_pin->setState(calculateOutput(object_pin));
 			}
 		}
+	}
 		
-		object->calculateState(object);
-		return connection->getState();
-	}
-	else
-	{
-		cout << "not" << endl;
-		pin->setState(connection->getState());
-		cout << connection->getState() << endl;
-		return pin->getState();
-	}
-
-	
+	object->calculateState(object);
+	return connection->getState();
 }
 
 
@@ -307,7 +270,7 @@ Object* Simulator::GetObjectOnClick(float x, float y)
 
 Pin* Simulator::getPinOnClick(LogicElement* obj, float x, float y)
 { 
-	// return pin by object type
+	// return pin by object type and based on the point where clicked
 	switch (obj->getObjType())
 	{
 		case AND:
@@ -347,7 +310,7 @@ Pin* Simulator::getPinOnClick(LogicElement* obj, float x, float y)
 			}
 			break;
 		case LEDtype:
-			if (y > obj->sprite.getPosition().y)
+			if (y > obj->sprite.getPosition().y) // bottom half
 			{
 				if ( x > obj->sprite.getPosition().x)
 				{
@@ -410,8 +373,8 @@ Pin* Simulator::getPinOnClick(LogicElement* obj, float x, float y)
 }
 
 void Simulator::unselectAll()
+	// unselect all objects on the list
 {
-
 	Object* temp = headObj;
 	while (temp != nullptr)
 	{
@@ -455,8 +418,8 @@ Object* Simulator::createObjectbyType(objType type, float x, float y)
 	case LEDtype:
 		return new LED(window, x, y);
 		break;
-	/*default:
+	default:
 		return nullptr;
-		break;*/
+		break;
 	}
 }

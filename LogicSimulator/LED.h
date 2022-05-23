@@ -11,15 +11,16 @@ public:
 
 LED::LED(sf::RenderWindow* window, float x, float y)
 {
-	
+	// assign special values of element
 	objID = LEDtype;
 	this->window = window;
+	// assign pin values
 	numPins = 2;
 	pins[0].setType(INPUT);
 	pins[1].setType(OUTPUT);
 
-	pins[0].dad = this;
-	pins[1].dad = this;
+	pins[0].parent = this;
+	pins[1].parent = this;
 	
 	state = 0;
 	textures[0].loadFromFile("../assets/LEDOFF.png");
@@ -31,12 +32,18 @@ LED::LED(sf::RenderWindow* window, float x, float y)
 
 void LED::drawObject(sf::RenderWindow* window) 
 {
-	sprite.setTexture(textures[state]);
+	sprite.setTexture(textures[state]); // change texture by state
 	window->draw(sprite);
+}
+
+LED::~LED()
+{
+	delete next;
 }
 
 int LED::calculateState(LogicElement* x)
 {
+	// assign input state to output
 	x->pins[1].setState(x->pins[0].getState());
 	return x->pins[1].getState();
 }

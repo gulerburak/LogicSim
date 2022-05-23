@@ -151,7 +151,6 @@
     <ClInclude Include="AndGate.h" />
     <ClInclude Include="Clock.h" />
     <ClInclude Include="Dff.h" />
-    <ClInclude Include="DoublyLinkedList.h" />
     <ClInclude Include="LED.h" />
     <ClInclude Include="LogicElement.h" />
     <ClInclude Include="NotGate.h" />

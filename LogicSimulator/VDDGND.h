@@ -10,14 +10,6 @@ public:
 	void drawObject(sf::RenderWindow*);
 };
 
-class Logic_0 : public LogicElement
-{
-public:
-	Logic_0(sf::RenderWindow* window, float, float);
-	int calculateState(LogicElement*);
-	~Logic_0();
-	void drawObject(sf::RenderWindow*);
-};
 
 Logic_1::Logic_1(sf::RenderWindow* window, float x,float y)
 {
@@ -27,11 +19,7 @@ Logic_1::Logic_1(sf::RenderWindow* window, float x,float y)
 	numPins = 1;
 	pins[0].setType(OUTPUT);
 	pins[0].setState(1);
-	
-	pins[0].dad = this;
-	
-	
-	
+	pins[0].parent = this;
 	textures[0].loadFromFile("../assets/VDD.png");
 	sprite.setTexture(textures[0]);
 	sprite.setOrigin(30.0f, 30.0f);
@@ -43,11 +31,20 @@ int Logic_1::calculateState(LogicElement* x )
 	x->pins[0].setState(1);
 	return x->pins[0].getState();
 }
-int Logic_0::calculateState(LogicElement* x)
+
+void Logic_1::drawObject(sf::RenderWindow*)
 {
-	x->pins[0].setState(0);
-	return x->pins[0].getState();
+	window->draw(sprite);
 }
+
+class Logic_0 : public LogicElement
+{
+public:
+	Logic_0(sf::RenderWindow* window, float, float);
+	int calculateState(LogicElement*);
+	~Logic_0();
+	void drawObject(sf::RenderWindow*);
+};
 
 Logic_0::Logic_0(sf::RenderWindow* window, float x,float y)
 {
@@ -57,9 +54,7 @@ Logic_0::Logic_0(sf::RenderWindow* window, float x,float y)
 	numPins = 1;
 	pins[0].setType(OUTPUT);
 	pins[0].setState(0);
-
-	pins[0].dad = this;
-	
+	pins[0].parent = this;
 
 	textures[0].loadFromFile("../assets/GND.png");
 	sprite.setTexture(textures[0]);
@@ -67,10 +62,12 @@ Logic_0::Logic_0(sf::RenderWindow* window, float x,float y)
 	sprite.setPosition(x, y);
 }
 
-void Logic_1::drawObject(sf::RenderWindow*)
+int Logic_0::calculateState(LogicElement* x)
 {
-	window->draw(sprite);
+	x->pins[0].setState(0);
+	return x->pins[0].getState();
 }
+
 void Logic_0::drawObject(sf::RenderWindow*)
 {
 	window->draw(sprite);
