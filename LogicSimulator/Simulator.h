@@ -382,7 +382,7 @@ Pin* Simulator::getPinOnClick(LogicElement* obj, float x, float y)
 			}
 			else if (x < (obj->sprite.getPosition().x - 20)) // if on left half
 			{
-				if (y > obj->sprite.getPosition().y) // if on bottom half
+				if (y > (obj->sprite.getPosition().y - 8)) // if on bottom half
 				{
 					cout << "Clock" << endl;
 					return &obj->pins[1];
