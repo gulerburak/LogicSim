@@ -214,12 +214,12 @@ int main()
                                     dummyWire->connectPins();
 
                                     // add another useless wire at the end of the wire so there will be 90 degree angle
-                                    if (dummyWire->getWireLineByIndex(0).y != dummyWire->getWireLineByIndex(1).y)
+                                    if (dummyWire->getWireLine(0).y != dummyWire->getWireLine(1).y)
                                     {
                                         dummyWire->setEndOfWire(dummyPin,
                                                                 mousePos.x,
-                                                                dummyWire->getWireLineByIndex(0).y);
-                                        Wire* wire = new Wire(mousePos.x, dummyWire->getWireLineByIndex(0).y, &window, nullptr);
+                                                                dummyWire->getWireLine(0).y);
+                                        Wire* wire = new Wire(mousePos.x, dummyWire->getWireLine(0).y, &window, nullptr);
 										wire->setEndOfWire(nullptr,
 														   mousePos.x,
 														   mousePos.y);
@@ -284,7 +284,7 @@ int main()
                                 
                             dummyWire = simulator.getSelectedWire();
                             cout << "Deleting wire" << endl;
-                            
+                                
                             simulator.deleteObject();
                            
                             
