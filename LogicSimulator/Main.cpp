@@ -203,7 +203,6 @@ int main()
                                                                    mousePos.x,
                                                                    mousePos.y);
                                 
-								
                                 if (dummyPin->addWire(dummyWire))
                                     // if max wire limit is not exceeded
                                 {
@@ -212,7 +211,19 @@ int main()
                                                             mousePos.x,
                                                             mousePos.y);
                                     dummyWire->connectPins();
-									
+
+                                    // add another useless wire at the end of the wire so there will be 90 degree angle
+                                    if (dummyWire->getWireLine(0).y != dummyWire->getWireLine(1).y)
+                                    {
+                                        dummyWire->setEndOfWire(dummyPin,
+                                                                mousePos.x,
+                                                                dummyWire->getWireLine(0).y);
+                                        Wire* wire = new Wire(mousePos.x, dummyWire->getWireLine(0).y, &window, nullptr);
+										wire->setEndOfWire(nullptr,
+														   mousePos.x,
+														   mousePos.y);
+                                        simulator.addObject(wire);
+                                    }
                                     dummyWire = nullptr;
                                 }
                                 else 
@@ -272,9 +283,14 @@ int main()
                                 
                             dummyWire = simulator.getSelectedWire();
                             cout << "Deleting wire" << endl;
+                                
                             simulator.deleteObject();
+                           
+                            
                         }
+                        
                         dummyObject = simulator.GetObjectOnClick(mousePos.x, mousePos.y);
+                        
                         simulator.deleteObject();
                     }
                 }
@@ -293,10 +309,10 @@ int main()
             int ss_int = (int)aa;
             cout << ss_int << endl;
             if (ss_int % 2 == 0) {
-                simulator.switchClockTo1();
+                simulator.switchClock(1);
             }
             else {
-                simulator.switchClockTo0();
+                simulator.switchClock(0);
             }
         }
 		

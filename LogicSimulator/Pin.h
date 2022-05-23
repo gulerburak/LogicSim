@@ -89,3 +89,4 @@ sf::Vector2f Pin::getPos()
 {
 	return pos;
 }
+
