@@ -26,8 +26,7 @@ public:
 	void deleteObject();
 	void resetAllPins();
 	void resetAllLEDs();
-	void switchClockTo1();
-	void switchClockTo0();
+	void switchClock(int);
 	void Simulate();
 	Object* getTop();
 	Object* getSelectedObject();
@@ -55,22 +54,13 @@ void Simulator::resetAllLEDs()
 	}
 }
 
-void Simulator::switchClockTo1()
+void Simulator::switchClock(int x)
 {	
-	cout << "Clock switched" << endl;
+	cout << "Clock switched to " << x << endl;
 	Object* temp = headObj;
 	while (temp != nullptr)
 	{
-		if (temp->getObjType() == CLOCK) temp->state = 1;
-		temp = temp->next;
-	}
-}void Simulator::switchClockTo0()
-{
-	cout << "Clock switched" << endl;
-	Object* temp = headObj;
-	while (temp != nullptr)
-	{
-		if (temp->getObjType() == CLOCK) temp->state = 0;
+		if (temp->getObjType() == CLOCK) temp->state = x;
 		temp = temp->next;
 	}
 }

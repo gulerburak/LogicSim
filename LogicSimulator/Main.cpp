@@ -310,10 +310,10 @@ int main()
             int ss_int = (int)aa;
             cout << ss_int << endl;
             if (ss_int % 2 == 0) {
-                simulator.switchClockTo1();
+                simulator.switchClock(1);
             }
             else {
-                simulator.switchClockTo0();
+                simulator.switchClock(0);
             }
         }
 		
