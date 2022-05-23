@@ -203,7 +203,6 @@ int main()
                                                                    mousePos.x,
                                                                    mousePos.y);
                                 
-								
                                 if (dummyPin->addWire(dummyWire))
                                     // if max wire limit is not exceeded
                                 {

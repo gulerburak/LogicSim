@@ -256,8 +256,9 @@ Object* Simulator::GetObjectOnClick(float x, float y)
 			return temp;
 
 
-
-		if (temp->getObjType() == WIREtype) {
+		/*
+		if (temp->getObjType() == WIREtype) 
+		{
 			//calculate Distance
 			sf::Vector2f p0 = static_cast<Wire*>(temp)->getWireLine(0);//start point
 			sf::Vector2f p1 = static_cast<Wire*>(temp)->getWireLine(1);//end point
@@ -274,6 +275,7 @@ Object* Simulator::GetObjectOnClick(float x, float y)
 			//perpendicular distance from mouse curser to line 
 			float K = sqrt((B * B) - ((((B * B) - (C * C) + (A * A)) / (2 * A)) * (((B * B) - (C * C) + (A * A)) / (2 * A))));
 
+			cout << "wire selected" << endl;
 			if (K < 10) {
 
 				cout << "distance= " << K << endl;
@@ -282,9 +284,9 @@ Object* Simulator::GetObjectOnClick(float x, float y)
 
 			}
 		}
+		*/
+		
 		temp = temp->next;
-
-
 	}
 	return nullptr;
 	
